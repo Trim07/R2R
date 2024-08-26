@@ -1,0 +1,16 @@
+{
+    "name": "trimcorp/r2r",
+    "description": "A customers register system",
+    "autoload": {
+        "psr-4": {
+            "Trimcorp\\R2r\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Henrique Garlach",
+            "email": "dxotabiladeiro1@gmail.com"
+        }
+    ],
+    "require": {}
+}
