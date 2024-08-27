@@ -1,6 +1,6 @@
 <?php
 
-namespace Trimcorp\R2r\utils\Interfaces;
+namespace App\Core\Interfaces;
 
 interface MigrationsInterface
 {

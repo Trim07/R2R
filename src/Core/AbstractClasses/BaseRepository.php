@@ -1,9 +1,9 @@
 <?php
 
-namespace Trimcorp\R2r\core\AbstractClasses;
+namespace App\Core\AbstractClasses;
 
 use \PDO;
-use Trimcorp\R2r\services\Database\DatabaseManager;
+use App\Services\Database\DatabaseManager;
 
 
 /**

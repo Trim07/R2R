@@ -3,7 +3,7 @@
     "description": "A customers register system",
     "autoload": {
         "psr-4": {
-            "Trimcorp\\R2r\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [

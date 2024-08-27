@@ -1,7 +1,7 @@
 <?php
 
-use Trimcorp\R2r\services\Database\DatabaseManager;
-use Trimcorp\R2r\app\modules\Customers\Repositories\CostumersRepository;
+use App\Services\Database\DatabaseManager;
+use App\Modules\Customers\Repositories\CostumersRepository;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../Core/bootstrap.php';

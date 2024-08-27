@@ -1,10 +1,10 @@
 <?php
 
-namespace Trimcorp\R2r\configs;
+namespace App\configs;
 
 use Dotenv\Dotenv;
-use Trimcorp\R2r\Providers\MigrationProvider;
-use Trimcorp\R2r\services\Database\DatabaseManager;
+use App\Providers\MigrationProvider;
+use App\Services\Database\DatabaseManager;
 
 
 /**

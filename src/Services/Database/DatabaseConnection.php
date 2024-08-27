@@ -1,6 +1,6 @@
 <?php
 
-namespace Trimcorp\R2r\services\Database;
+namespace App\Services\Database;
 
 use PDO;
 

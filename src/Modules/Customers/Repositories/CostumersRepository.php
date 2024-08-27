@@ -1,9 +1,9 @@
 <?php
 
-namespace Trimcorp\R2r\app\modules\Customers\Repositories;
+namespace App\Modules\Customers\Repositories;
 
-use Trimcorp\R2r\core\AbstractClasses\BaseRepository;
-use Trimcorp\R2r\app\modules\Customers\Models\Customers;
+use App\Core\AbstractClasses\BaseRepository;
+use App\Modules\Customers\Models\Customers;
 
 /**
  * Read data from costumers table

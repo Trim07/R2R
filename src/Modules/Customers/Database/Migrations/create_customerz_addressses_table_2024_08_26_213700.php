@@ -1,6 +1,6 @@
 <?php
 
-use Trimcorp\R2r\utils\Interfaces\MigrationsInterface;
+use App\Core\Interfaces\MigrationsInterface;
 
 return new class implements MigrationsInterface
 {

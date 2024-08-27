@@ -1,9 +1,9 @@
 <?php
 
-namespace Trimcorp\R2r\Providers;
+namespace App\Providers;
 
 use InvalidArgumentException;
-use Trimcorp\R2r\services\Database\DatabaseManager;
+use App\Services\Database\DatabaseManager;
 
 /**
  * Class that performs migrations to the database
