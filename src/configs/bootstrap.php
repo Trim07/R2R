@@ -21,13 +21,13 @@ $driver = $_ENV['DB_DRIVER'] ?? "mysql";
 DatabaseManager::initialize($driver);
 
 
-/**
- * Executa migrações caso tenha alguma pendente
- */
-$migrationManager = new MigrationProvider();
-
-// Adicionar o diretório para migracao.
-$migrationManager->addMigrationDirectory(__DIR__ . "\..\\app\modules\Customers\Database\Migrations");
-
-// Executar todas as migrations que foram adicionadas através da função addMigrationDirectory()
-$migrationManager->upMigration();
+///**
+// * Executa migrações caso tenha alguma pendente
+// */
+//$migrationManager = new MigrationProvider();
+//
+//// Adicionar o diretório para migracao.
+//$migrationManager->addMigrationDirectory(__DIR__ . "\..\\app\modules\Customers\Database\Migrations");
+//
+//// Executar todas as migrations que foram adicionadas através da função addMigrationDirectory()
+//$migrationManager->upMigration();

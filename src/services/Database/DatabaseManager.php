@@ -17,7 +17,7 @@ class DatabaseManager
     /**
      * Initialize the database connection.
      *
-     * @param DatabaseConnection $connection database connection instance.
+     * @param string $connector
      */
     public static function initialize(string $connector): void
     {
@@ -57,6 +57,7 @@ class DatabaseManager
     /**
      * Retorna a conexão especifica para cada banco de dados
      *
+     * @param string $driver
      * @return DatabaseConnection
      */
     private static function getConnector(string $driver): DatabaseConnection

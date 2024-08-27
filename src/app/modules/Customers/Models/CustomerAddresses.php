@@ -1,6 +1,6 @@
 <?php
 
-namespace App\modules\Customers\Models;
+namespace Trimcorp\R2r\app\modules\Customers\Models;
 
 class CustomerAddresses
 {
