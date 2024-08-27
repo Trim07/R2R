@@ -2,7 +2,7 @@
 
 namespace Trimcorp\R2r\app\modules\Customers\Repositories;
 
-use Trimcorp\R2r\utils\AbstractClasses\BaseRepository;
+use Trimcorp\R2r\core\AbstractClasses\BaseRepository;
 use Trimcorp\R2r\app\modules\Customers\Models\Customers;
 
 /**
@@ -11,6 +11,7 @@ use Trimcorp\R2r\app\modules\Customers\Models\Customers;
 class CostumersRepository extends BaseRepository
 {
     private readonly string $table;
+
     function __construct(
         private readonly Customers $customers = new Customers
     ){

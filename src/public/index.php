@@ -1,10 +1,10 @@
 <?php
 
 use Trimcorp\R2r\services\Database\DatabaseManager;
-use \Trimcorp\R2r\app\modules\Customers\Repositories\CostumersRepository;
+use Trimcorp\R2r\app\modules\Customers\Repositories\CostumersRepository;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/../configs/bootstrap.php';
+require_once __DIR__ . '/../Core/bootstrap.php';
 
 
 $pdo = DatabaseManager::getConnection();

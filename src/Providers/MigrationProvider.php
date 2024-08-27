@@ -1,6 +1,6 @@
 <?php
 
-namespace Trimcorp\R2r\providers;
+namespace Trimcorp\R2r\Providers;
 
 use InvalidArgumentException;
 use Trimcorp\R2r\services\Database\DatabaseManager;

@@ -3,7 +3,7 @@
 namespace Trimcorp\R2r\configs;
 
 use Dotenv\Dotenv;
-use Trimcorp\R2r\providers\MigrationProvider;
+use Trimcorp\R2r\Providers\MigrationProvider;
 use Trimcorp\R2r\services\Database\DatabaseManager;
 
 
@@ -27,7 +27,7 @@ DatabaseManager::initialize($driver);
 //$migrationManager = new MigrationProvider();
 //
 //// Adicionar o diretório para migracao.
-//$migrationManager->addMigrationDirectory(__DIR__ . "\..\\app\modules\Customers\Database\Migrations");
+//$migrationManager->addMigrationDirectory(__DIR__ . "\..\\App\Modules\Customers\Database\Migrations");
 //
 //// Executar todas as migrations que foram adicionadas através da função addMigrationDirectory()
 //$migrationManager->upMigration();
