@@ -13,12 +13,8 @@ return function (\App\Core\Routes\Router $router) {
         return json_encode(['data' => []]);
     });
 
-    $router->addRoute('GET', '/customers/{id}', function ($id) {
-        $request = new \App\Core\Routes\Request();
-         var_dump($id);
-//        var_dump($request->all());
-//        $id = $request->getQueryParam('id');
-//         (new CustomersController)->show($id);
+    $router->addRoute('GET', '/customers/{id}', function (array $data) {
+        (new CustomersController)->show($data);
     });
 
     $router->addRoute('PUT', '/customers/{id}', function (int $id) {

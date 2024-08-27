@@ -30,7 +30,6 @@ abstract class BaseRepository{
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             var_dump($e->getMessage());
-            error_log($e->getMessage());
             return [];
         }
     }

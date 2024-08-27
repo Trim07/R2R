@@ -55,11 +55,9 @@ class Router implements RouterInterface
     {
         // Verifica o método HTTP
         if ($route->getMethod() !== $request->getMethod()) {
-            http_response_code(405);
             return false;
         }
 
-        // Verifica se o caminho da URI corresponde ao padrão da rota
         $pattern = $this->createPattern($route->getUri());
         $pattern = "#^" . $pattern . "$#";
 
@@ -82,7 +80,6 @@ class Router implements RouterInterface
      */
     private function createPattern(string $uri): string
     {
-        $pattern = preg_replace('/\{(\w+)\}/', '(\d+)', $uri);
-        return $pattern;
+        return preg_replace('/\{(\w+)\}/', '(\d+)', $uri);
     }
 }

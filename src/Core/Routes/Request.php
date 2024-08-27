@@ -26,7 +26,6 @@ class Request
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->path = $_SERVER['REQUEST_URI'];
 
-        // Captura dados JSON do corpo da requisição, se disponível
         if ($this->isJsonRequest()) {
             $this->data = json_decode(file_get_contents('php://input'), true) ?? [];
         } else {
@@ -34,46 +33,73 @@ class Request
         }
     }
 
+    /**
+     * Return ALL DATA from request
+     *
+     * @return array
+     */
     public function all(): array
     {
         return array_merge($this->queryParams, $this->postParams, $this->data);
     }
 
-    public function getQuery(string $key = null)
+    /**
+     * Return DATA from GET request or can be used to return a specific field value
+     *
+     * @param string|null $key
+     * @return array|mixed|null
+     */
+    public function getQuery(string $key = null): mixed
     {
         return $key ? ($this->queryParams[$key] ?? null) : $this->queryParams;
     }
 
-    public function getPost(string $key = null)
+    /**
+     * Return POST data
+     *
+     * @param string|null $key
+     * @return array|mixed|null
+     */
+    public function getPost(string $key = null): mixed
     {
         return $key ? ($this->postParams[$key] ?? null) : $this->postParams;
     }
 
-    public function getJson(string $key = null)
-    {
-        return $key ? ($this->data[$key] ?? null) : $this->data;
-    }
-
+    /**
+     * Return info from HEADERS
+     *
+     * @return array
+     */
     public function getHeaders(): array
     {
         return $this->headers;
     }
 
+    /**
+     * Return COOKIES
+     *
+     * @return array
+     */
     public function getCookies(): array
     {
         return $this->cookies;
     }
 
+    /**
+     * Check if the current request type is JSON FORMAT
+     *
+     * @return bool
+     */
     private function isJsonRequest(): bool
     {
-        return isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') === 0;
+        return isset($_SERVER['CONTENT_TYPE']) && str_starts_with($_SERVER['CONTENT_TYPE'], 'application/json');
     }
 
     private function parseHeaders(): array
     {
         $headers = [];
         foreach ($_SERVER as $key => $value) {
-            if (strpos($key, 'HTTP_') === 0) {
+            if (str_starts_with($key, 'HTTP_')) {
                 $headerKey = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))));
                 $headers[$headerKey] = $value;
             }
@@ -94,12 +120,7 @@ class Request
      * get request method
      * @return string
      */
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    public function getUri()
+    public function getUri(): string
     {
         return $_SERVER["REQUEST_URI"];
     }

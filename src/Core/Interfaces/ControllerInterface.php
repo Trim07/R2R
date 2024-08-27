@@ -2,6 +2,7 @@
 
 namespace App\Core\Interfaces;
 
+
 /**
  * Interface ControllerInterface
  * Define padrões para controllers.
@@ -28,7 +29,7 @@ interface ControllerInterface
      * @param int $id
      * @return void
      */
-    public function show(int $id): void;
+    public function show(array $data): void;
 
     /**
      * Updates a record by ID.
