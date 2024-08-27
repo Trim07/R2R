@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Core\Routes;
+namespace App\Core\Routes\Interfaces;
+
+use App\Core\Routes\Request;
 
 /**
  * Interface will be used in class standardization

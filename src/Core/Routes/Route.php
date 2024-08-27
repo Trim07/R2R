@@ -33,7 +33,7 @@ class Route
      *
      * @return string
      */
-    public function getPath(): string
+    public function getUri(): string
     {
         return $this->path;
     }
