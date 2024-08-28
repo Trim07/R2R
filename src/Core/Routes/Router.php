@@ -64,8 +64,11 @@ class Router implements RouterInterface
         // Verifica se a rota acessada condiz com a rota encontrada no arquivo routes.php do módulo
         if (preg_match($pattern, $request->getUri(), $matches)) {
             array_shift($matches); // Remove o primeiro elemento que é o caminho completo
+            $this->params = match ($route->getMethod()) {
+                "GET", "DELETE" => array_map('trim', $matches),
+                "POST", "PUT" => $request->getData(),
+            };
 
-            $this->params = array_map('trim', $matches);
             return true;
         }
 

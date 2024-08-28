@@ -19,14 +19,15 @@ interface ControllerInterface
     /**
      * Creates a new record.
      *
+     * @param array $data
      * @return void
      */
-    public function create(): void;
+    public function create(array $data): void;
 
     /**
      * Get a specific record by ID.
      *
-     * @param int $id
+     * @param array $data
      * @return void
      */
     public function show(array $data): void;
@@ -34,16 +35,16 @@ interface ControllerInterface
     /**
      * Updates a record by ID.
      *
-     * @param int $id
+     * @param array $data
      * @return void
      */
-    public function update(int $id): void;
+    public function update(array $data): void;
 
     /**
      * Delete a record by ID.
      *
-     * @param int $id
+     * @param array $data
      * @return void
      */
-    public function delete(int $id): void;
+    public function delete(array $data): void;
 }

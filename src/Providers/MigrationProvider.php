@@ -2,25 +2,25 @@
 
 namespace App\Providers;
 
+use App\Core\Database\DatabaseManager;
 use InvalidArgumentException;
-use App\Services\Database\DatabaseManager;
+
 
 /**
  * Class that performs migrations to the database
  */
-
 class MigrationProvider
 {
     private array $directories = ['migrations']; // Diretórios padrão de migrations
 
     public function __construct(
-        private DatabaseManager $databaseManager = new DatabaseManager
+        private readonly DatabaseManager $databaseManager = new DatabaseManager
     ) {}
 
     /**
-     * Adiciona um diretório para busca de migrations.
+     * Add array migrations directory.
      *
-     * @param string $directory O diretório a ser adicionado.
+     * @param string $directory Directory to search migrations.
      */
     public function addMigrationDirectory(string $directory): void
     {
@@ -32,7 +32,8 @@ class MigrationProvider
     }
 
     /**
-     * Executa a funções up() em migrations encontradas nos diretórios especificados.
+     * Execute up() function on migrations
+     * @return void
      */
     public function upMigration(): void
     {
@@ -46,14 +47,15 @@ class MigrationProvider
                     echo "Executando migration: {$file}\n";
                     $this->databaseManager->getConnection()->exec($migration->up());
                 } else {
-                    echo "Método 'up' não encontrado na migration: {$className}\n";
+                    echo "Método 'up' não encontrado na migration\n";
                 }
             }
         }
     }
 
     /**
-     * Executa a função down() migrations encontradas nos diretórios especificados.
+     * Execute down() function on migrations
+     * @return void
      */
     public function downMigration(): void
     {
@@ -67,17 +69,17 @@ class MigrationProvider
                     echo "Executando migration: {$file}\n";
                     $this->databaseManager->getConnection()->exec($migration->up());
                 } else {
-                    echo "Método 'up' não encontrado na migration: {$className}\n";
+                    echo "Método 'up' não encontrado na migration\n";
                 }
             }
         }
     }
 
     /**
-     * Obtém todos os arquivos de migration a partir do diretório especificado.
+     * Get all migration files from directory
      *
-     * @param string $directory O diretório para buscar arquivos de migration.
-     * @return array Lista de caminhos de arquivos de migration.
+     * @param string $directory
+     * @return array
      */
     private function getMigrationFiles(string $directory): array
     {

@@ -14,7 +14,7 @@ abstract class FormRequest
     public function __construct(array $data)
     {
         $this->data = $data;
-        $this->validate();
+        $this->validate($data);
     }
 
     /**
@@ -27,34 +27,17 @@ abstract class FormRequest
     /**
      * Validates the request data based on defined rules.
      *
-     * @return void
-     */
-    protected function validate(): void
-    {
-        $this->rules = $this->rules();
-        foreach ($this->rules as $field => $rule) {
-            if (!$this->applyRule($field, $rule)) {
-                $this->errors[$field] = "O campo $field é inválido.";
-            }
-        }
-    }
-
-    /**
-     * Applies a validation rule to a field.
-     *
-     * @param string $field
-     * @param string $rule
+     * @param array $data
      * @return bool
      */
-    protected function applyRule(string $field, string $rule): bool
+    public function validate(array $data): bool
     {
-        $value = $this->data[$field] ?? null;
-        return match ($rule) {
-            "required" => is_null($value),
-            "int" => is_numeric($value),
-            "min", "max" => $rule,
-            default => $value,
-        };
+        $rules = $this->rules();
+        $formValidators = new FormValidators();
+        $formValidators->validate($data, $rules);
+        $this->errors = $formValidators->getErrors();
+
+        return empty($this->errors);
     }
 
     /**
@@ -75,5 +58,21 @@ abstract class FormRequest
     public function getErrors(): array
     {
         return $this->errors;
+    }
+
+    /**
+     * Return only fields that contains in rule() function
+     *
+     * @return array
+     */
+    public function validated(): array
+    {
+        return array_filter(
+            $this->data,
+            function ($key) {
+                return array_key_exists($key, $this->rules);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
     }
 }

@@ -2,11 +2,10 @@
 
 namespace App\Configs;
 
+use App\Core\Database\DatabaseManager;
 use App\Core\Routes\Request;
 use App\Core\Routes\Router;
 use Dotenv\Dotenv;
-use App\Providers\MigrationProvider;
-use App\Services\Database\DatabaseManager;
 
 
 $projectRootPath = dirname(__DIR__, 1);

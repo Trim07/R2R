@@ -8,14 +8,14 @@ use App\Modules\Customers\Models\Customers;
 /**
  * Read data from costumers table
  */
-class CostumersRepository extends BaseRepository
+class CustomersRepository extends BaseRepository
 {
     private readonly string $table;
 
     function __construct(
         private readonly Customers $customers = new Customers
     ){
-        $this->table = $this->customers->table;
+        $this->table = $this->customers->getTableName();
         parent::__construct();
     }
 

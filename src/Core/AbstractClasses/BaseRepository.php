@@ -2,8 +2,8 @@
 
 namespace App\Core\AbstractClasses;
 
-use \PDO;
-use App\Services\Database\DatabaseManager;
+use App\Core\Database\DatabaseManager;
+use PDO;
 
 
 /**

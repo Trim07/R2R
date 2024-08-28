@@ -16,7 +16,7 @@ return new class implements MigrationsInterface
                     `name` VARCHAR(100) NOT NULL,
                     `birthday` DATE NOT NULL,
                     `cpf` CHAR(11) UNIQUE NOT NULL,
-                    `rg` VARCHAR(9) UNIQUE NOT NULL,
+                    `rg` VARCHAR(10) UNIQUE NOT NULL,
                     `phone` VARCHAR(11) UNIQUE NOT NULL,
                     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

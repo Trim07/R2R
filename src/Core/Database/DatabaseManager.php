@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Database;
+namespace App\Core\Database;
 
 use PDO;
 use RuntimeException;
@@ -63,7 +63,7 @@ class DatabaseManager
     private static function getConnector(string $driver): DatabaseConnection
     {
         return match ($driver) {
-            'mysql' => new \App\Services\Database\MySQLConnection(),
+            'mysql' => new \App\Core\Database\MySQLConnection(),
             default => throw new RuntimeException('Driver de banco de dados não suportado ou inexistente: ' . $driver),
         };
     }

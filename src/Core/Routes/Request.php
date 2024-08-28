@@ -8,29 +8,21 @@ namespace App\Core\Routes;
  */
 class Request
 {
+
     private string $method;
     private array $data;
     private array $queryParams;
-    private array $postParams;
     private array $headers;
     private array $cookies;
 
-    private string $path;
 
     public function __construct()
     {
         $this->headers = $this->parseHeaders();
         $this->cookies = $_COOKIE;
         $this->queryParams = $_GET;
-        $this->postParams = $_POST;
         $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->path = $_SERVER['REQUEST_URI'];
-
-        if ($this->isJsonRequest()) {
-            $this->data = json_decode(file_get_contents('php://input'), true) ?? [];
-        } else {
-            $this->data = $this->postParams;
-        }
+        $this->data = json_decode(file_get_contents('php://input'), true) ?? [];
     }
 
     /**
@@ -40,7 +32,7 @@ class Request
      */
     public function all(): array
     {
-        return array_merge($this->queryParams, $this->postParams, $this->data);
+        return array_merge($this->queryParams, $this->data);
     }
 
     /**
@@ -49,20 +41,9 @@ class Request
      * @param string|null $key
      * @return array|mixed|null
      */
-    public function getQuery(string $key = null): mixed
+    public function getData(string $key = null): mixed
     {
-        return $key ? ($this->queryParams[$key] ?? null) : $this->queryParams;
-    }
-
-    /**
-     * Return POST data
-     *
-     * @param string|null $key
-     * @return array|mixed|null
-     */
-    public function getPost(string $key = null): mixed
-    {
-        return $key ? ($this->postParams[$key] ?? null) : $this->postParams;
+        return $key ? ($this->data[$key] ?? null) : $this->data;
     }
 
     /**
