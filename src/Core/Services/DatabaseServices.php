@@ -15,16 +15,16 @@ class DatabaseServices implements DatabaseServicesInterface
 
     function __construct(
         private readonly DatabaseManager $databaseManager = new DatabaseManager()
-    ){}
+    ){
+    }
 
     /**
      * Insert a new record in table
      *
      * @param ModelInterface $model
-     * @return bool
-     * @throws \PDOException
+     * @return ModelInterface
      */
-    public function insert(ModelInterface $model): bool
+    public function insert(ModelInterface $model): ModelInterface
     {
         $table = $model->getTableName();
 
@@ -32,8 +32,6 @@ class DatabaseServices implements DatabaseServicesInterface
         $data = $model->mapFieldsToArray();
         $columns = implode(', ', array_keys($data));
         $values = ':' . implode(', :', array_keys($data));
-
-        var_dump($columns, $values, $data);
 
         // Preparar a query SQL de inserção
         $sql = "INSERT INTO $table ($columns) VALUES ($values)";
@@ -46,13 +44,14 @@ class DatabaseServices implements DatabaseServicesInterface
             // Executar a query com os valores do modelo
             if ($statement->execute($data)) {
                 // Commita a transação
+                $lastCreatedId = $this->databaseManager->getConnection()->lastInsertId();
                 $this->databaseManager->getConnection()->commit();
-                return true;
+                return $this->getLastRecord($model, $lastCreatedId);
             }
 
             // Reverter a transação em caso de falha
             $this->databaseManager->getConnection()->rollBack();
-            return false;
+            throw new \PDOException("Não foi possivel criar o registro no banco de dados");
         } catch (\PDOException $e) {
             // Reverter a transação em caso de exceção
             $this->databaseManager->getConnection()->rollBack();
@@ -112,7 +111,8 @@ class DatabaseServices implements DatabaseServicesInterface
     public function delete(ModelInterface $model): bool
     {
         $table = $model->getTableName();
-        $id = $model->id;
+        $data = $model->mapFieldsToArray();
+        $id = $data["id"];
 
         // Preparar a query SQL de exclusão
         $sql = "DELETE FROM $table WHERE id = ?";
@@ -137,5 +137,19 @@ class DatabaseServices implements DatabaseServicesInterface
             $this->databaseManager->getConnection()->rollBack();
             throw new \PDOException("Erro ao excluir do banco de dados: " . $e->getMessage());
         }
+    }
+
+    /**
+     * @param ModelInterface $model
+     * @param int $id
+     * @return mixed
+     */
+    private function getLastRecord(ModelInterface $model, int $id): ModelInterface
+    {
+        $table = $model->getTableName();
+        $stmt = $this->databaseManager->getConnection()->prepare("SELECT * FROM $table WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+
+        return $model::mapFieldFromArray($stmt->fetch(\PDO::FETCH_ASSOC));
     }
 }

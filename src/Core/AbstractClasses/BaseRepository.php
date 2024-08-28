@@ -11,37 +11,98 @@ use PDO;
  */
 abstract class BaseRepository{
 
+    protected string $table;
+    protected array $conditions = [];
+    protected array $bindings = [];
+    protected string $selectColumns = '*';
+
     function __construct(
         protected DatabaseManager $databaseManager = new DatabaseManager()
     ){}
 
     /**
-     * Método para executar consulta SQL.
+     * Method to execute SQL query.
      *
-     * @param string $query SQL a ser executado.
-     * @param array $params Parâmetros para a consulta.
-     * @return array Resultados da consulta
+     * @param string $query SQL query string.
+     * @return array results
      */
-    protected function exec(string $query, array $params = []): array
+    protected function exec(string $query): array
     {
         try {
             $stmt = $this->databaseManager->getConnection()->prepare($query);
-            $stmt->execute($params);
+            $stmt->execute($this->bindings);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            var_dump($e->getMessage());
             return [];
         }
     }
 
     /**
-     * Método abstrato para selecionar registros.
+     * Set table to SQL query
      *
-     * @param array $columns Colunas a serem selecionadas.
-     * @param array $conditions Condições / Wheres para filtragem.
-     * @return array Resultados da consulta.
+     * @param string $table
+     * @return BaseRepository
      */
-    abstract public function select(array $columns = ['*'], array $conditions = []): array;
+    protected function table(string $table): self
+    {
+        $this->table = $table;
+        return $this;
+    }
 
+     /**
+     * Set the columns to select
+     *
+     * @param array $columns Columns to select
+     * @return $this
+     */
+    public function select(array $columns = ['*']): self
+    {
+        $this->selectColumns = implode(', ', $columns);
+        return $this;
+    }
 
+    /**
+     * Add a where condition to SQL query.
+     *
+     * @param string $column Column name
+     * @param string $operator Comparison operator (=, <, >, <=, >=, !=, etc.)
+     * @param mixed $value Value to compare
+     * @return $this
+     */
+    public function where(string $column, string $operator, mixed $value): self
+    {
+        $placeholder = str_replace('.', '_', $column);
+        $this->conditions[] = "$column $operator :$placeholder";
+        $this->bindings[$placeholder] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Build and execute the SQL query with the current conditions.
+     *
+     * @return array Result set
+     */
+    public function get(): array
+    {
+        $query = $this->buildQuery();
+        return $this->exec($query);
+    }
+
+    /**
+     * Build the SQL query with the current conditions.
+     *
+     * @return string
+     */
+    protected function buildQuery(): string
+    {
+        $query = "SELECT $this->selectColumns FROM $this->table";
+
+        if (!empty($this->conditions)) {
+            $conditionsString = implode(' AND ', $this->conditions);
+            $query .= " WHERE $conditionsString";
+        }
+
+        return $query;
+    }
 }

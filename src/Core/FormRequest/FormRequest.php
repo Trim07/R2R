@@ -2,6 +2,8 @@
 
 namespace App\Core\FormRequest;
 
+use App\Core\Exceptions\FormRequestValidationException;
+
 /**
  * Base class for handling form requests and validations.
  */
@@ -11,6 +13,9 @@ abstract class FormRequest
     protected array $rules = [];
     protected array $errors = [];
 
+    /**
+     * @throws FormRequestValidationException
+     */
     public function __construct(array $data)
     {
         $this->data = $data;
@@ -28,16 +33,18 @@ abstract class FormRequest
      * Validates the request data based on defined rules.
      *
      * @param array $data
-     * @return bool
+     * @return void
+     * @throws FormRequestValidationException
      */
-    public function validate(array $data): bool
+    public function validate(array $data): void
     {
-        $rules = $this->rules();
         $formValidators = new FormValidators();
-        $formValidators->validate($data, $rules);
+        $formValidators->validate($data, $this->rules());
         $this->errors = $formValidators->getErrors();
 
-        return empty($this->errors);
+        if (!empty($this->errors)) {
+            throw new FormRequestValidationException('Form validation failed', 400, $this->errors);
+        }
     }
 
     /**
@@ -61,18 +68,51 @@ abstract class FormRequest
     }
 
     /**
-     * Return only fields that contains in rule() function
+     * Return only fields that contains in rules() function
      *
      * @return array
      */
     public function validated(): array
     {
-        return array_filter(
-            $this->data,
-            function ($key) {
-                return array_key_exists($key, $this->rules);
-            },
-            ARRAY_FILTER_USE_KEY
-        );
+        return $this->filterData($this->data, $this->rules());
+    }
+
+    /**
+     * Helper method to filter data based on rules.
+     *
+     * @param array $data
+     * @param array $rules
+     * @return array
+     */
+    protected function filterData(array $data, array $rules): array
+    {
+        $filteredData = [];
+
+        foreach ($rules as $key => $rule) {
+            if (isset($data[$key])) {
+                if (is_array($rule)) {
+                    // Handle nested arrays
+                    if (is_array($data[$key])) {
+                        // Recursive filtering for nested data
+                        if (isset($rule['*']) && is_array($rule['*'])) {
+                            // Handle arrays of objects
+                            $filteredData[$key] = [];
+                            foreach ($data[$key] as $index => $item) {
+                                if (is_array($item)) {
+                                    $filteredData[$key][$index] = $this->filterData($item, $rule['*']);
+                                }
+                            }
+                        } else {
+                            // Handle other nested structures
+                            $filteredData[$key] = $this->filterData($data[$key], $rule);
+                        }
+                    }
+                } else {
+                    // Include fields that are present in the rules
+                    $filteredData[$key] = $data[$key];
+                }
+            }
+        }
+        return $filteredData;
     }
 }

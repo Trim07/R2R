@@ -12,8 +12,14 @@ interface ModelInterface{
      */
     static function mapFieldFromArray(array $array): self;
 
+    /**
+     * @return array
+     */
     function mapFieldsToArray(): array;
 
+    /**
+     * @return string
+     */
     function getTableName(): string;
 
 }

@@ -21,12 +21,28 @@ class UpdateFormRequest extends FormRequest
     protected function rules(): array
     {
         return [
-              "id" => "int",
-              "name" => "string|max:100",
-              "birthday" => "date",
-              "cpf" => "string",
-              "rg" => "string",
-              "phone" => "string"
+            'customer' => [
+                "id" => "required|int",
+                "name" => "required|string|max:100",
+                "birthday" => "required|date",
+                "cpf" => "required|string|max:11",
+                "rg" => "required|string|max:9",
+                "phone" => "required|string|max:11"
+            ],
+            'addresses' => [
+                '*' => [ // '*' indica qualquer índice numérico (array de objetos)
+                    "id" => "required|int",
+                    "name" => "required|string",
+                    "street" => "required|string",
+                    "number" => "required|string",
+                    "neighborhood" => "required|string",
+                    "city" => "required|string",
+                    "state" => "required|string",
+                    "country" => "required|string",
+                    "zipcode" => "required|string",
+                    "complement" => "string",
+                ]
+            ]
         ];
     }
 }

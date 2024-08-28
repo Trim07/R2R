@@ -2,6 +2,7 @@
 
 namespace App\Modules\Customers\Http\Controllers;
 
+use App\Core\Exceptions\FormRequestValidationException;
 use App\Core\Interfaces\ControllerInterface;
 use App\Modules\Customers\Http\Requests\CreateFormRequest;
 use App\Modules\Customers\Http\Requests\DeleteFormRequest;
@@ -43,9 +44,7 @@ class CustomersController implements ControllerInterface
     {
         try {
             $validatedData = (new CreateFormRequest($data))->validated();
-            $modelMappedFields = $this->customersServices->mapFields($validatedData);
-            $this->customersServices->create($modelMappedFields);
-            echo 123;
+            $this->customersServices->create($validatedData);
         }catch (\Exception $exception){
             http_response_code(500);
             echo $exception->getMessage();
@@ -60,20 +59,25 @@ class CustomersController implements ControllerInterface
      */
     public function show(array $data): void
     {
-        $id = $data[0] ?? null;
+        try {
+            $id = (Int)$data[0] ?? null;
 
-        $request = new ShowFormRequest(['id' => $id]);
+            $request = new ShowFormRequest(['id' => $id]);
 
-        // Valida os parâmetros usando o ShowFormRequest
-        if ($request->isValid() === false) {
-            http_response_code(400);
-            echo json_encode(['errors' => $request->getErrors()]);
-            return;
+            // Valida os parâmetros usando o ShowFormRequest
+            if ($request->isValid() === false) {
+                http_response_code(400);
+                echo json_encode(['errors' => $request->getErrors()]);
+                return;
+            }
+
+            $costumer = $this->custumersRepository->findById($id);
+            http_response_code(200);
+            echo json_encode($costumer);
+
+        }catch (\Exception $exception){
+            echo $exception->getMessage();
         }
-
-        $costumer = $this->custumersRepository->findById($id);
-        http_response_code(200);
-        echo json_encode($costumer);
     }
 
     /**
@@ -86,9 +90,13 @@ class CustomersController implements ControllerInterface
     {
         try {
             $validatedData = (new UpdateFormRequest($data))->validated();
-            $modelMappedFields = $this->customersServices->mapFields($validatedData);
-            $this->customersServices->update($modelMappedFields);
-            echo 123;
+            $this->customersServices->update($validatedData);
+        }catch (FormRequestValidationException $exception){
+            http_response_code(400);
+            echo json_encode([
+                'message' => $exception->getMessage(),
+                'errors' => $exception->getErrors(),
+            ]);
         }catch (\Exception $exception){
             http_response_code(500);
             echo $exception->getMessage();
@@ -104,7 +112,7 @@ class CustomersController implements ControllerInterface
     public function delete(array $data): void
     {
         try {
-            $id = $data[0] ?? null;
+            $id = (Int)$data[0] ?? null;
             $request = new DeleteFormRequest(['id' => $id]);
 
             // Valida os parâmetros usando o ShowFormRequest
@@ -114,8 +122,7 @@ class CustomersController implements ControllerInterface
                 return;
             }
 
-            $modelMappedFields = $this->customersServices->mapFields(['id' => $id]);
-            $this->customersServices->delete($modelMappedFields);
+            $this->customersServices->delete($request->validated());
             http_response_code(204);
         }catch (\Exception $exception){
             http_response_code(500);

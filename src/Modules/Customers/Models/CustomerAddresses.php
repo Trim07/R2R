@@ -17,30 +17,32 @@ class CustomerAddresses implements ModelInterface
     private readonly string $table;
 
     function __construct(
-        public ?int $id = null,
-        public ?int $customer_id = null,
-        public ?string $name = null,
-        public ?string $street = null,
-        public ?string $number = null,
-        public ?string $neighborhood = null,
-        public ?string $city = null,
-        public ?string $state = null,
-        public ?string $country = null,
-        public ?string $zipcode = null,
-        public ?string $complement = null,
-        public ?string $created_at = null,
-        public ?string $updated_at = null,
+        private ?int $id = null,
+        private ?int $customer_id = null,
+        private ?string $name = null,
+        private ?string $street = null,
+        private ?string $number = null,
+        private ?string $neighborhood = null,
+        private ?string $city = null,
+        private ?string $state = null,
+        private ?string $country = null,
+        private ?string $zipcode = null,
+        private ?string $complement = null,
+        private ?string $created_at = null,
+        private ?string $updated_at = null,
     ) {
         $this->table = 'customer_addresses';
     }
 
     /**
      * @param array $array
-     * @return ModelInterface
+     * @return CustomerAddresses
      */
-    static function mapFieldFromArray(array $array): ModelInterface
+    static function mapFieldFromArray(array $array): self
     {
         return new self(
+            id: $array['id'] ?? null,
+            customer_id: $array['customer_id'] ?? null,
             name: $array['name'] ?? null,
             street: $array['street'] ?? null,
             number: $array['number'] ?? null,
@@ -50,8 +52,6 @@ class CustomerAddresses implements ModelInterface
             country: $array['country'] ?? null,
             zipcode: $array['zipcode'] ?? null,
             complement: $array['complement'] ?? null,
-            created_at: $array['created_at'] ?? null,
-            updated_at: $array['updated_at'] ?? null,
         );
     }
 
@@ -61,6 +61,8 @@ class CustomerAddresses implements ModelInterface
     function mapFieldsToArray(): array
     {
         return [
+            "id" => $this->id ?? null,
+            "customer_id" => $this->customer_id ?? null,
             "name" =>  $this->name ?? null,
             "street" =>  $this->street ?? null,
             "number" =>  $this->number ?? null,
@@ -70,8 +72,6 @@ class CustomerAddresses implements ModelInterface
             "country" =>  $this->country ?? null,
             "zipcode" =>  $this->zipcode ?? null,
             "complement" =>  $this->complement ?? null,
-            "created_at" =>  $this->created_at ?? null,
-            "updated_at" =>  $this->updated_at ?? null,
         ];
     }
 
@@ -81,5 +81,11 @@ class CustomerAddresses implements ModelInterface
     function getTableName(): string
     {
         return $this->table;
+    }
+
+    function setCustomerId(int $customer_id): self
+    {
+        $this->customer_id = $customer_id;
+        return $this;
     }
 }

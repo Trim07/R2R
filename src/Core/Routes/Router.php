@@ -53,7 +53,7 @@ class Router implements RouterInterface
      */
     private function match(Route $route, Request $request): bool
     {
-        // Verifica o método HTTP
+        // Verifica se o metodo HTTP $route é o mesmo que o metodo HTTP $request
         if ($route->getMethod() !== $request->getMethod()) {
             return false;
         }

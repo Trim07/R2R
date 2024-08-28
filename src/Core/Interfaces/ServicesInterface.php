@@ -5,10 +5,22 @@ namespace App\Core\Interfaces;
 interface ServicesInterface
 {
 
-    function create(ModelInterface $data): void;
+    /**
+     * @param array $data
+     * @return void
+     */
+    function create(array $data): void;
 
-    function update(ModelInterface $data): void;
+    /**
+     * @param array $data
+     * @return void
+     */
+    function update(array $data): void;
 
-    function delete(ModelInterface $data): void;
+    /**
+     * @param array $data
+     * @return void
+     */
+    function delete(array $data): void;
 
 }

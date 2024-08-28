@@ -7,51 +7,49 @@ use App\Modules\Customers\Models\Customers;
 
 /**
  * Read data from costumers table
+ *
+ * @extends BaseRepository
  */
 class CustomersRepository extends BaseRepository
 {
-    private readonly string $table;
 
     function __construct(
         private readonly Customers $customers = new Customers
     ){
-        $this->table = $this->customers->getTableName();
         parent::__construct();
     }
 
     /**
      * find record by id
      *
-     * @param int $id Id do documento
-     * @param array $columns Colunas a serem selecionadas
-     *
+     * @param int $id ID of record
      * @return array
+     * @throws \Exception
      */
-    public function findById(int $id, array $columns = ['*']): array
+    public function findById(int $id): array
     {
-        $columnsString = implode(', ', $columns);
-        $query = "SELECT $columnsString FROM $this->table WHERE id = ?";
-        return $this->exec($query, [$id]);
+        $customer = $this->findOrFail($id);
+        $customer_addresses = (new CustomerAddressesRepository)->findByCustomerId($id);
+
+        return [
+            "customer" => $customer,
+            "addresses" => $customer_addresses,
+        ];
     }
 
     /**
-     * select records and do conditionals
      *
-     * @param array $columns Colunas a serem selecionadas
-     * @param array $conditions Condições / Where para filtragem
-     *
-     * @return array Retorno dos dados
+     * @param int $id
+     * @return array
+     * @throws \Exception
      */
-    public function select(array $columns = ['*'], array $conditions = []): array
+    public function findOrFail(int $id): array
     {
-        $columnsString = implode(', ', $columns);
-        $query = "SELECT $columnsString FROM $this->table";
-
-        if (!empty($conditions)) {
-            $conditionsString = implode(' AND ', array_map(fn($col) => "$col = :$col", array_keys($conditions)));
-            $query .= " WHERE $conditionsString";
+        $customer = $this->table($this->customers->getTableName())->select()->where("id", "=", $id)->get();
+        if(empty($customer)){
+            http_response_code(204);
+            throw new \Exception("Cliente não encontrado");
         }
-
-        return $this->exec($query, $conditions);
+        return $customer[0];
     }
 }
