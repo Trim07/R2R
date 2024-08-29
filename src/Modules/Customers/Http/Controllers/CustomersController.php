@@ -19,7 +19,7 @@ class CustomersController implements ControllerInterface
 {
 
     function __construct(
-        private readonly CustomersRepository $custumersRepository = new CustomersRepository(),
+        private readonly CustomersRepository $customersRepository = new CustomersRepository(),
         private readonly CustomersServices $customersServices = new CustomersServices()
     ){}
 
@@ -30,7 +30,7 @@ class CustomersController implements ControllerInterface
      */
     public function index(): void
     {
-        $costumers = $this->custumersRepository->select();
+        $costumers = $this->customersRepository->select();
         echo json_encode($costumers);
     }
 
@@ -71,7 +71,7 @@ class CustomersController implements ControllerInterface
                 return;
             }
 
-            $costumer = $this->custumersRepository->findById($id);
+            $costumer = $this->customersRepository->findById($id);
             http_response_code(200);
             echo json_encode($costumer);
 

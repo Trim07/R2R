@@ -6,7 +6,7 @@ use App\Core\Interfaces\ModelInterface;
 
 
 /**
- *  Customers Addresses Model Class
+ *  Customer Addresses Model Class
  *  Contains whole fields from respective table
  *
  * @implements ModelInterface

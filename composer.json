@@ -16,5 +16,13 @@
       "php": "^8.1",
       "ext-pdo": "*",
         "vlucas/phpdotenv": "^5.6"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "php src\\Core\\Scripts\\MigrationRunner.php"
+        ],
+        "run-server": [
+            "php src\\Core\\Scripts\\runserver.php"
+        ]
     }
 }

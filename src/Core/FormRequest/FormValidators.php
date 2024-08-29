@@ -69,7 +69,6 @@ class FormValidators
     protected function validateField(string $field, mixed $value, string $rule): void
     {
         $rules = explode('|', $rule);
-
         foreach ($rules as $rule) {
             if($rule === "required"){
                 $this->validateRequired($field, $value);
@@ -94,15 +93,15 @@ class FormValidators
     /**
      * Validate required fields
      *
-     * @param string $field
-     * @param string $value
+     * @param string|null $field
+     * @param string|null $value
      * @return bool
      */
-    public function validateRequired(string $field, string $value): bool
+    public function validateRequired(string|null $field, string|null $value): bool
     {
-        $valueIsEmpty = empty($value);
-        if ($valueIsEmpty) {
-            $this->errors[$field][] = "The $field is required.";
+        $isValid = strlen($value) !== 0 && !empty($field);
+        if ($isValid === false) {
+            $this->errors[$field][] = "O campo $field é obrigatório.";
             return false;
         }
         return true;
@@ -111,17 +110,18 @@ class FormValidators
     /**
      * Validate maximum fields value size
      *
-     * @param string $field
-     * @param string $value
+     * @param string|null $field
+     * @param string|null $value
      * @param string $rule
      * @return bool
      */
-    public function validateMax(string $field, string $value, string $rule): bool
+    public function validateMax(string|null $field, string|null $value, string $rule): bool
     {
         $max = (int)str_replace('max:', '', $rule);
 
-        if (strlen($value) > $max) {
-            $this->errors[$field][] = "The $field may not be greater than $max characters.";
+        $isValid = strlen($value) !== 0 && !empty($field) && !(strlen($value) > $max);
+        if ($isValid === false) {
+            $this->errors[$field][] = "O campo $field não pode ser maior que $max caracteres.";
             return false;
         }
         return true;
@@ -130,17 +130,18 @@ class FormValidators
     /**
      * Validate minimum fields value size
      *
-     * @param string $field
-     * @param string $value
+     * @param string|null $field
+     * @param string|null $value
      * @param string $rule
      * @return bool
      */
-    public function validateMin(string $field, string $value, string $rule): bool
+    public function validateMin(string|null $field, string|null $value, string $rule): bool
     {
         $min = (int)str_replace('min:', '', $rule);
 
-        if (strlen($value) < $min) {
-            $this->errors[$field][] = "The $field may not be less than $min characters.";
+        $isValid = strlen($value) !== 0 && !empty($field) && !strlen($value) > $min;
+        if ($isValid === false) {
+            $this->errors[$field][] = "O campo $field não pode ser menor que $min caracteres.";
             return false;
         }
         return true;
@@ -149,15 +150,15 @@ class FormValidators
     /**
      * Validate if field is string type
      *
-     * @param string $field
-     * @param string $value
+     * @param string|null $field
+     * @param string|null $value
      * @return bool
      */
-    public function validateString(string $field, string $value): bool
+    public function validateString(string|null $field, string|null $value): bool
     {
-        $isString = !is_string($value);
-        if ($isString) {
-            $this->errors[$field][] = "The $field must be a string.";
+        $isValid = is_string($value) && !empty($value) && strlen($value) !== 0;
+        if ($isValid === false) {
+            $this->errors[$field][] = "O campo $field deve ser válido.";
             return false;
         }
         return true;
@@ -166,15 +167,15 @@ class FormValidators
     /**
      * Validate if field is integer type
      *
-     * @param string $field
-     * @param string $value
+     * @param string|null $field
+     * @param int|null $value
      * @return bool
      */
-    public function validateInt(string $field, string $value): bool
+    public function validateInt(string|null $field, int|null $value): bool
     {
-        $isString = !is_numeric($value);
-        if ($isString) {
-            $this->errors[$field][] = "The $field must be a integer.";
+        $isValid = !empty($field) && strlen($value) !== 0;
+        if ($isValid === false) {
+            $this->errors[$field][] = "O campo $field deve ser válido.";
             return false;
         }
         return true;

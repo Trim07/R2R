@@ -28,32 +28,32 @@ class DatabaseServices implements DatabaseServicesInterface
     {
         $table = $model->getTableName();
 
-        // Separa as chaves (colunas) e os valores para a query SQL
+        // Split keys (columns) and values to SQL Query
         $data = $model->mapFieldsToArray();
         $columns = implode(', ', array_keys($data));
         $values = ':' . implode(', :', array_keys($data));
 
-        // Preparar a query SQL de inserção
+        // Prepare SQL Query to insert
         $sql = "INSERT INTO $table ($columns) VALUES ($values)";
         $statement = $this->databaseManager->getConnection()->prepare($sql);
 
         try {
-            // Iniciar a transação
+            // Init transaction
             $this->databaseManager->getConnection()->beginTransaction();
 
-            // Executar a query com os valores do modelo
+            // Execute transaction
             if ($statement->execute($data)) {
-                // Commita a transação
+                // Commit transaction
                 $lastCreatedId = $this->databaseManager->getConnection()->lastInsertId();
                 $this->databaseManager->getConnection()->commit();
                 return $this->getLastRecord($model, $lastCreatedId);
             }
 
-            // Reverter a transação em caso de falha
+            // Roolback transaction if got error
             $this->databaseManager->getConnection()->rollBack();
             throw new \PDOException("Não foi possivel criar o registro no banco de dados");
         } catch (\PDOException $e) {
-            // Reverter a transação em caso de exceção
+            // Roolback transaction if got error
             $this->databaseManager->getConnection()->rollBack();
             throw new \PDOException("Erro ao inserir no banco de dados: " . $e->getMessage());
         }
@@ -71,32 +71,32 @@ class DatabaseServices implements DatabaseServicesInterface
 
         $data = $model->mapFieldsToArray();
 
-        // Separar os campos e os valores para a query SQL
+        // Split keys (columns) and values to SQL Query
         $fields = implode(' = ?, ', array_keys($data)) . ' = ?';
         $values = array_values($data);
         $id = $data["id"];
 
-        // Preparar a query SQL de atualização
+        // Prepare SQL Query to insert
         $sql = "UPDATE $table SET $fields WHERE id = ?";
 
         $statement = $this->databaseManager->getConnection()->prepare($sql);
 
         try {
-            // Iniciar a transação
+            // Init transaction
             $this->databaseManager->getConnection()->beginTransaction();
 
-            // Executar a query com os valores do modelo
+            // Execute transaction
             if ($statement->execute([...$values, $id])) {
-                // Commita a transação
+                // Commit transaction
                 $this->databaseManager->getConnection()->commit();
                 return true;
             }
 
-            // Reverter a transação em caso de falha
+            // Roolback transaction if got error
             $this->databaseManager->getConnection()->rollBack();
             return false;
         } catch (\PDOException $e) {
-            // Reverter a transação em caso de exceção
+            // Roolback transaction if got error
             $this->databaseManager->getConnection()->rollBack();
             throw new \PDOException("Erro ao atualizar no banco de dados: " . $e->getMessage());
         }
@@ -114,32 +114,34 @@ class DatabaseServices implements DatabaseServicesInterface
         $data = $model->mapFieldsToArray();
         $id = $data["id"];
 
-        // Preparar a query SQL de exclusão
+        // Prepare SQL Query to delete record
         $sql = "DELETE FROM $table WHERE id = ?";
 
         $statement = $this->databaseManager->getConnection()->prepare($sql);
 
         try {
-            // Iniciar a transação
+            // Init transaction
             $this->databaseManager->getConnection()->beginTransaction();
 
             if ($statement->execute([$id])) {
-                // Commita a transação
+                // Commit transaction
                 $this->databaseManager->getConnection()->commit();
                 return true;
             }
 
-            // Reverter a transação em caso de falha
+            // Roolback transaction if got error
             $this->databaseManager->getConnection()->rollBack();
             return false;
         } catch (\PDOException $e) {
-            // Reverter a transação em caso de exceção
+            // Roolback transaction if got error
             $this->databaseManager->getConnection()->rollBack();
             throw new \PDOException("Erro ao excluir do banco de dados: " . $e->getMessage());
         }
     }
 
     /**
+     * Get last created record
+     *
      * @param ModelInterface $model
      * @param int $id
      * @return mixed

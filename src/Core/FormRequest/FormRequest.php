@@ -43,7 +43,7 @@ abstract class FormRequest
         $this->errors = $formValidators->getErrors();
 
         if (!empty($this->errors)) {
-            throw new FormRequestValidationException('Form validation failed', 400, $this->errors);
+            throw new FormRequestValidationException('Ocorreram erros durante a validação dos dados informados', $this->errors, 400);
         }
     }
 

@@ -78,7 +78,7 @@ class CustomerAddressesServices implements ItemsServicesInterface
     }
 
     /**
-     * Map fields to Customers model
+     * Map fields to Customer model
      *
      * @param array $data
      * @return CustomerAddresses

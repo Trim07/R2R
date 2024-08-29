@@ -90,6 +90,21 @@ abstract class BaseRepository{
     }
 
     /**
+     * Build and execute the SQL query with the current conditions.
+     *
+     * @return array|null Result set
+     */
+    public function first(): ?array
+    {
+        $query = $this->get();
+
+        if(!empty($query)){
+            return $query[0];
+        }
+        return null;
+    }
+
+    /**
      * Build the SQL query with the current conditions.
      *
      * @return string

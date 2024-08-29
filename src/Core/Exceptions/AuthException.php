@@ -8,18 +8,15 @@ use JetBrains\PhpStorm\NoReturn;
 /**
  * @extends \Exception
  */
-class FormRequestValidationException extends BaseException
+class AuthException extends BaseException
 {
-    protected array $errors;
-
     /**
      * @param string $message
-     * @param int $code
      * @param array $errors
+     * @param int $code
      */
-
     #[NoReturn]
-     public function __construct(string $message, array $errors = [], int $code = 400)
+    public function __construct(string $message, array $errors = [], int $code = 400)
     {
         parent::__construct($message, $errors, $code);
         $this->errors = $errors;

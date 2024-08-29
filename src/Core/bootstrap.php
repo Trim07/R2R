@@ -16,6 +16,8 @@ $projectRootPath = dirname(__DIR__, 1);
 $dotenv = Dotenv::createImmutable(__DIR__."\..\\");
 $dotenv->load();
 
+
+
 /**
  * Inicia uma conexão Singleton com o banco de dados
  * Sempre que iniciar a aplicação, uma instancia Singleton de conexão com o banco de dados será criada
@@ -23,12 +25,14 @@ $dotenv->load();
 $driver = $_ENV['DB_DRIVER'] ?? "mysql";
 DatabaseManager::initialize($driver);
 
+
+
 /**
- * Mapeamento das rotas de cada modulo
+ * Mapeamento das rotas e migrations de cada modulo
  */
 // Carregando as rotas dos módulos
 $router = new Router();
-$modules = ['Customers']; // Lista de módulos, pode ser dinamicamente gerado
+$modules = ['Users', 'Customers']; // Lista de módulos, pode ser dinamicamente gerado
 $modules_path = "/Modules";
 
 foreach ($modules as $module) {
@@ -44,15 +48,3 @@ $request = new Request();
 
 // Manipulando a requisição atual
 $router->handleRequest($request);
-
-
-///**
-// * Executa migrações caso tenha alguma pendente
-// */
-//$migrationManager = new MigrationProvider();
-//
-//// Adicionar o diretório para migracao.
-//$migrationManager->addMigrationDirectory(__DIR__ . "..%s\%s\Customers\Database\Migrations");
-//
-//// Executar todas as migrations que foram adicionadas através da função addMigrationDirectory()
-//$migrationManager->upMigration();
