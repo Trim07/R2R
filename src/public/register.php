@@ -23,15 +23,15 @@
             <form id="registerForm">
                 <div class="form-group">
                     <label for="username">Nome de Usuário</label>
-                    <input type="text" class="form-control" id="username" name="user[name]" required>
+                    <input type="text" class="form-control" id="username" name="user[name]" maxlength="100" required>
                 </div>
                 <div class="form-group mt-1">
                     <label for="username">E-mail</label>
-                    <input type="text" class="form-control" id="email" name="user[email]" required>
+                    <input type="text" class="form-control" id="email" name="user[email]" maxlength="100" required>
                 </div>
                 <div class="form-group mt-1">
                     <label for="password">Senha</label>
-                    <input type="password" class="form-control" id="password" name="user[password]" required>
+                    <input type="password" class="form-control" id="password" name="user[password]" maxlength="100" required>
                 </div>
                 <div class="row mt-4">
                     <div class="col-6">
