@@ -21,7 +21,7 @@ class DeleteFormRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'id' => 'int',
+            'id' => 'required|int',
         ];
     }
 }

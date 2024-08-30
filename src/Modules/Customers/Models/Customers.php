@@ -55,7 +55,7 @@ class Customers implements ModelInterface
     {
         return [
             "id" => $this->id,
-//            "user_id" => $this->user_id,
+            "user_id" => $this->user_id,
             "name" => $this->name,
             "birthday" => $this->birthday,
             "cpf" => $this->cpf,

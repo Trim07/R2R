@@ -16,8 +16,8 @@ class CustomerAddressesRepository extends BaseRepository
     function __construct(
         private readonly CustomerAddresses $customersAddresses = new CustomerAddresses
     ){
-        $this->table = $this->customersAddresses->getTableName();
         parent::__construct();
+        $this->table = $this->customersAddresses->getTableName();
     }
 
     /**

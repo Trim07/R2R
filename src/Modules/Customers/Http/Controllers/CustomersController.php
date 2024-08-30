@@ -30,7 +30,7 @@ class CustomersController implements ControllerInterface
      */
     public function index(): void
     {
-        $costumers = $this->customersRepository->select();
+        $costumers = $this->customersRepository->get();
         echo json_encode($costumers);
     }
 
@@ -61,17 +61,10 @@ class CustomersController implements ControllerInterface
     {
         try {
             $id = (Int)$data[0] ?? null;
-
             $request = new ShowFormRequest(['id' => $id]);
 
-            // Valida os parâmetros usando o ShowFormRequest
-            if ($request->isValid() === false) {
-                http_response_code(400);
-                echo json_encode(['errors' => $request->getErrors()]);
-                return;
-            }
-
             $costumer = $this->customersRepository->findById($id);
+
             http_response_code(200);
             echo json_encode($costumer);
 
@@ -114,14 +107,6 @@ class CustomersController implements ControllerInterface
         try {
             $id = (Int)$data[0] ?? null;
             $request = new DeleteFormRequest(['id' => $id]);
-
-            // Valida os parâmetros usando o ShowFormRequest
-            if ($request->isValid() === false) {
-                http_response_code(400);
-                echo json_encode(['errors' => $request->getErrors()]);
-                return;
-            }
-
             $this->customersServices->delete($request->validated());
             http_response_code(204);
         }catch (\Exception $exception){

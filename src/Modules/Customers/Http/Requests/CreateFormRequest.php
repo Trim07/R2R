@@ -22,11 +22,11 @@ class CreateFormRequest extends FormRequest
     {
         return [
             'customer' => [
-                "name" => "string|max:100",
-                "birthday" => "date",
-                "cpf" => "string|max:11",
-                "rg" => "string|max:9",
-                "phone" => "string|max:11"
+                "name" => "required|string|max:100",
+                "birthday" => "required|date",
+                "cpf" => "required|string|max:11",
+                "rg" => "required|string|max:10",
+                "phone" => "required|string|max:11"
             ],
             'addresses' => [
                 '*' => [ // '*' indica qualquer índice numérico (array de objetos)

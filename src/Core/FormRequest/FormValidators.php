@@ -70,6 +70,7 @@ class FormValidators
     {
         $rules = explode('|', $rule);
         foreach ($rules as $rule) {
+
             if($rule === "required"){
                 $this->validateRequired($field, $value);
 
@@ -84,8 +85,11 @@ class FormValidators
 
             }else if(str_contains($rule, 'min:')){
                 $this->validateMin($field, $value, $rule);
+
+            }else if($rule === "date"){
+                $this->validateDate($field, $value);
             }else{
-                throw new  FormRequestValidationException("O validador do campo $field não existe", 400);
+                throw new  FormRequestValidationException("O validador do campo $field não existe", [], 400);
             }
         }
     }
@@ -97,7 +101,7 @@ class FormValidators
      * @param string|null $value
      * @return bool
      */
-    public function validateRequired(string|null $field, string|null $value): bool
+    private function validateRequired(string|null $field, string|null $value): bool
     {
         $isValid = strlen($value) !== 0 && !empty($field);
         if ($isValid === false) {
@@ -113,18 +117,16 @@ class FormValidators
      * @param string|null $field
      * @param string|null $value
      * @param string $rule
-     * @return bool
+     * @return void
      */
-    public function validateMax(string|null $field, string|null $value, string $rule): bool
+    private function validateMax(string|null $field, string|null $value, string $rule): void
     {
         $max = (int)str_replace('max:', '', $rule);
 
         $isValid = strlen($value) !== 0 && !empty($field) && !(strlen($value) > $max);
         if ($isValid === false) {
             $this->errors[$field][] = "O campo $field não pode ser maior que $max caracteres.";
-            return false;
         }
-        return true;
     }
 
     /**
@@ -133,18 +135,16 @@ class FormValidators
      * @param string|null $field
      * @param string|null $value
      * @param string $rule
-     * @return bool
+     * @return void
      */
-    public function validateMin(string|null $field, string|null $value, string $rule): bool
+    private function validateMin(string|null $field, string|null $value, string $rule): void
     {
         $min = (int)str_replace('min:', '', $rule);
 
         $isValid = strlen($value) !== 0 && !empty($field) && !strlen($value) > $min;
         if ($isValid === false) {
             $this->errors[$field][] = "O campo $field não pode ser menor que $min caracteres.";
-            return false;
         }
-        return true;
     }
 
     /**
@@ -152,16 +152,14 @@ class FormValidators
      *
      * @param string|null $field
      * @param string|null $value
-     * @return bool
+     * @return void
      */
-    public function validateString(string|null $field, string|null $value): bool
+    private function validateString(string|null $field, string|null $value): void
     {
         $isValid = is_string($value) && !empty($value) && strlen($value) !== 0;
         if ($isValid === false) {
             $this->errors[$field][] = "O campo $field deve ser válido.";
-            return false;
         }
-        return true;
     }
 
     /**
@@ -169,16 +167,31 @@ class FormValidators
      *
      * @param string|null $field
      * @param int|null $value
-     * @return bool
+     * @return void
      */
-    public function validateInt(string|null $field, int|null $value): bool
+    private function validateInt(string|null $field, int|null $value): void
     {
         $isValid = !empty($field) && strlen($value) !== 0;
         if ($isValid === false) {
             $this->errors[$field][] = "O campo $field deve ser válido.";
-            return false;
         }
-        return true;
+    }
+
+    /**
+     * Validate if field is a valid date
+     *
+     * @param string|null $field
+     * @param string|null $value
+     * @param string|null $format
+     * @return void
+     */
+    private function validateDate(string|null$field, string|null$value, string|null $format = 'Y-m-d')
+    {
+        $comp_date = \DateTime::createFromFormat($format, $value);
+        $isValid = $comp_date && $comp_date->format($format) === $value;
+        if ($isValid === false) {
+            $this->errors[$field][] = "O campo $field deve ser válido.";
+        }
     }
 
     /**

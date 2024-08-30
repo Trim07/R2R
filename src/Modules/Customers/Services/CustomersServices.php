@@ -27,6 +27,7 @@ class CustomersServices implements ServicesInterface
      */
     function create(array $data): void
     {
+        $data["customer"]["user_id"] = 1;
         $customerModel = $this->mapFields($data["customer"]);
         $customer = $this->databaseServices->insert($customerModel); // insert customers into table
 
@@ -41,6 +42,7 @@ class CustomersServices implements ServicesInterface
      */
     function update(array $data): void
     {
+        $data["customer"]["user_id"] = 1;
         $customerModel = $this->mapFields($data["customer"]);
         $this->databaseServices->update($customerModel); // update customer
         (new CustomerAddressesServices)->update($data["addresses"], $customerModel->id); // update addresses
@@ -57,7 +59,7 @@ class CustomersServices implements ServicesInterface
         $modelMappedFields = $this->mapFields($data);
         $isDeletedAllAddresses = (new CustomerAddressesServices)->deleteAll($modelMappedFields->id);
         if($isDeletedAllAddresses){
-            $this->databaseServices->delete($modelMappedFields);
+            this->databaseServices->delete($modelMappedFields);
         }
     }
 

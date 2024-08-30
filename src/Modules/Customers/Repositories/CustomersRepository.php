@@ -17,6 +17,7 @@ class CustomersRepository extends BaseRepository
         private readonly Customers $customers = new Customers
     ){
         parent::__construct();
+        $this->table = $this->customers->getTableName();
     }
 
     /**

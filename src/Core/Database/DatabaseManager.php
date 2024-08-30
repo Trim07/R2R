@@ -41,21 +41,7 @@ class DatabaseManager
     }
 
     /**
-     * Retorna a instância singleton do DatabaseManager.
-     *
-     * @return DatabaseManager
-     */
-    public static function getInstance(): DatabaseManager
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-    /**
-     * Retorna a conexão especifica para cada banco de dados
+     * Return Connection for each database connection type
      *
      * @param string $driver
      * @return DatabaseConnection

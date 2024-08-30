@@ -68,7 +68,7 @@ class CustomerAddressesServices implements ItemsServicesInterface
      */
     function deleteAll(int $father_id): bool
     {
-        $addresses = (new CustomerAddressesRepository)->select(["*"], ['customer_id' => $father_id]);
+        $addresses = (new CustomerAddressesRepository)->where("customer_id", "=", $father_id)->get();
 
         foreach ($addresses as $address) {
             $modelMappedFields = $this->mapFields($address);

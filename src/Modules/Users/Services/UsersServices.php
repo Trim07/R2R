@@ -27,7 +27,7 @@ class UsersServices implements ServicesInterface
      */
     function create(array $data): void
     {
-        $data["user"]["password"] = password_hash($data["password"], PASSWORD_BCRYPT);
+        $data["user"]["password"] = password_hash($data["user"]["password"], PASSWORD_BCRYPT);
         $userModel = $this->mapFields($data["user"]);
         $this->databaseServices->insert($userModel); // insert users into table
     }

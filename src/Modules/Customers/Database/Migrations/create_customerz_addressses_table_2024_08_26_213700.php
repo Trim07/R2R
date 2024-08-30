@@ -22,7 +22,7 @@ return new class implements MigrationsInterface
                     `state` CHAR(4) NOT NULL,
                     `country` CHAR(3) NOT NULL DEFAULT 'BRA',
                     `zipcode` CHAR(8) NOT NULL,
-                    `complement` VARCHAR(50) NOT NULL,
+                    `complement` VARCHAR(50),
                     `default` BOOLEAN NOT NULL,
                     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
