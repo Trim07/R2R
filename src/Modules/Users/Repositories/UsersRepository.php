@@ -44,7 +44,7 @@ class UsersRepository extends BaseRepository
      */
     public function findOrFail(int $id): array
     {
-        $users = $this->table($this->users->getTableName())->select()->where("id", "=", $id)->get();
+        $users = $this->select()->where("id", "=", $id)->get();
         if(empty($users)){
             http_response_code(204);
             throw new \Exception("Usuário não encontrado");

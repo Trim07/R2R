@@ -2,6 +2,7 @@
 
 namespace App\Modules\Users\Services;
 
+use App\Core\Exceptions\AuthException;
 use App\Modules\Users\Models\Users;
 use App\Modules\Users\Repositories\UsersRepository;
 use App\Modules\Users\Services\Interfaces\AuthServicesInterface;
@@ -22,6 +23,7 @@ class AuthService implements AuthServicesInterface
     /**
      * @param array $data
      * @return bool
+     * @throws AuthException
      */
     public function login(array $data): bool
     {
@@ -31,7 +33,7 @@ class AuthService implements AuthServicesInterface
             $this->startSession($user);
             return true;
         }
-        return false;
+        throw new AuthException("Credenciais incorretas", [], 401);
     }
 
     /**

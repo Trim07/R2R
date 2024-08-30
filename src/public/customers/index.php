@@ -69,19 +69,19 @@ require_once 'index.php';
 
                                     <div class="col-4">
                                         <label for="customerModal-phone" class="form-label">Telefone</label>
-                                        <input type="text" class="form-control phone" id="customerModal-phone" name="customer[phone]" maxlength="11" required>
+                                        <input type="text" class="form-control" id="customerModal-phone" name="customer[phone]" maxlength="11" required>
                                     </div>
 
                                     <div class="col-4">
                                         <label for="customerModal-cpf" class="form-label">CPF</label>
-                                        <input type="text" class="form-control cpf" id="customerModal-cpf" name="customer[cpf]" maxlength="11" required>
+                                        <input type="text" class="form-control" id="customerModal-cpf" name="customer[cpf]" maxlength="11" required>
                                     </div>
                                 </div>
 
                                 <div class="row mt-2">
                                     <div class="col-4">
                                         <label for="customerModal-rg" class="form-label">RG</label>
-                                        <input type="text" class="form-control rg" id="customerModal-rg" name="customer[rg]" maxlength="10" required>
+                                        <input type="text" class="form-control" id="customerModal-rg" name="customer[rg]" maxlength="10" required>
                                     </div>
 
                                     <div class="col-4">
@@ -186,7 +186,7 @@ require_once 'index.php';
                     Swal.fire({
                         icon: 'error',
                         title: "Ops...",
-                        text: `Ocorreu um erro ao buscar dados dos clientes:\n${error}`,
+                        text: `Ocorreu um erro ao buscar dados dos clientes:\n${error.response.data.error}`,
                     });
                 });
         }
@@ -226,7 +226,7 @@ require_once 'index.php';
                     Swal.fire({
                         icon: 'error',
                         title: "Ops...",
-                        text: `Ocorreu um erro ao buscar dados do cliente:\n${error}`,
+                        text: `Ocorreu um erro ao buscar dados do cliente:\n${error.response.data.error}`,
                     });
                 });
         }
@@ -299,7 +299,7 @@ require_once 'index.php';
                 .catch(function(error) {
                     Swal.fire({
                         title: "Ops...",
-                        text: `Ocorreu um erro ao salvar o cliente:\n${error}`,
+                        text: `Ocorreu um erro ao salvar o cliente:\n${error.response.data.error}`,
                         icon: "error",
                         button: "OK",
                     });
@@ -335,7 +335,7 @@ require_once 'index.php';
                             .catch(function(error) {
                                 Swal.fire({
                                     title: "Ops...",
-                                    text: `Ocorreu um erro ao deletar o cliente.${error}`,
+                                    text: `Ocorreu um erro ao deletar o cliente.${error.response.data.error}`,
                                     icon: "error",
                                     button: "OK",
                                 });
@@ -358,6 +358,21 @@ require_once 'index.php';
                 $(input).val(date.toLocaleDateString('pt-BR'));
             });
         }
+
+        document.addEventListener('submit', function(event) {
+            $('input:invalid').each(function() {
+                // Find the tab-pane that this element is inside, and get the id
+                var $closest = $(this).closest('.tab-pane');
+                var id = $closest.attr('id');
+
+                // Find the link that corresponds to the pane and have it show
+                $('.nav a[href="#' + id + '"]').tab('show');
+
+                // Only want to do it once
+                return false;
+            });
+        });
+
     </script>
 </body>
 

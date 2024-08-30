@@ -3,9 +3,11 @@
 namespace App\Modules\Customers\Services;
 
 
+use App\Core\Exceptions\CustomerException;
 use App\Core\Interfaces\ServicesInterface;
 use App\Core\Services\DatabaseServices;
 use App\Modules\Customers\Models\Customers;
+use App\Modules\Customers\Repositories\CustomersRepository;
 
 /**
  * Can be used to access external services or manipulate the database, for example
@@ -17,6 +19,7 @@ class CustomersServices implements ServicesInterface
 
     function __construct(
         private readonly DatabaseServices $databaseServices = new DatabaseServices(),
+        private readonly CustomersRepository $customersRepository = new CustomersRepository(),
     ){}
 
     /**
@@ -24,14 +27,21 @@ class CustomersServices implements ServicesInterface
      *
      * @param array $data
      * @return void
+     * @throws CustomerException
      */
     function create(array $data): void
     {
         $data["customer"]["user_id"] = 1;
         $customerModel = $this->mapFields($data["customer"]);
-        $customer = $this->databaseServices->insert($customerModel); // insert customers into table
+        if($this->customersRepository->checkIfCustomerExists($customerModel) === false){
+            $customer = $this->databaseServices->insert($customerModel); // insert customers into table
+            if(!empty($data["addresses"])){
+                (new CustomerAddressesServices)->update($data["addresses"], $customer->id); // update addresses
+            }
+            return;
+        }
+        throw new CustomerException("Já existe um cliente cadastrado com essas informações.", [], 409);
 
-        (new CustomerAddressesServices)->create($data["addresses"], $customer->id); // insert addresses into table
     }
 
     /**
@@ -45,7 +55,10 @@ class CustomersServices implements ServicesInterface
         $data["customer"]["user_id"] = 1;
         $customerModel = $this->mapFields($data["customer"]);
         $this->databaseServices->update($customerModel); // update customer
-        (new CustomerAddressesServices)->update($data["addresses"], $customerModel->id); // update addresses
+
+        if(!empty($data["addresses"])){
+            (new CustomerAddressesServices)->update($data["addresses"], $customerModel->id); // update addresses
+        }
     }
 
     /**
@@ -59,7 +72,7 @@ class CustomersServices implements ServicesInterface
         $modelMappedFields = $this->mapFields($data);
         $isDeletedAllAddresses = (new CustomerAddressesServices)->deleteAll($modelMappedFields->id);
         if($isDeletedAllAddresses){
-            this->databaseServices->delete($modelMappedFields);
+            $this->databaseServices->delete($modelMappedFields);
         }
     }
 

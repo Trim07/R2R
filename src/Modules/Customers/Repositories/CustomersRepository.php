@@ -46,11 +46,20 @@ class CustomersRepository extends BaseRepository
      */
     public function findOrFail(int $id): array
     {
-        $customer = $this->table($this->customers->getTableName())->select()->where("id", "=", $id)->get();
+        $customer = $this->select()->where("id", "=", $id)->get();
         if(empty($customer)){
             http_response_code(204);
             throw new \Exception("Cliente não encontrado");
         }
         return $customer[0];
+    }
+
+    public function checkIfCustomerExists(Customers $customer): bool
+    {
+        $search_customer = $this->orWhere("cpf", "=", $customer->cpf)
+                        ->orWhere("rg", "=", $customer->rg)
+                        ->orWhere("phone", "=", $customer->phone)
+                        ->first();
+        return !empty($search_customer);
     }
 }

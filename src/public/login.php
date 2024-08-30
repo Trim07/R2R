@@ -62,13 +62,21 @@ require_once 'index.php';
                 withCredentials: true
             })
             .then(response => {
-                window.location.href = "/customers/index.php";
+                Swal.fire({
+                    title: "Sucesso",
+                    text: "Login realizado com sucesso!",
+                    icon: "success",
+                    confirmButtonText: "Ok",
+                });
+                setTimeout(() => {
+                    window.location.href = "/customers/index.php";
+                }, 1000);
             })
             .catch(error => {
                 Swal.fire({
                     icon: 'error',
                     title: "Ops...",
-                    text: `Ocorreu um erro durante o login:\n${error}`,
+                    text: `Ocorreu um erro durante o login:\n${error.response.data.error}`,
                 });
             });
         });
