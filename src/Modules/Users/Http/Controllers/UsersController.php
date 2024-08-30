@@ -148,7 +148,6 @@ class UsersController implements ControllerInterface
             $this->authService->login($request->validated());
             http_response_code(200);
         }catch (AuthException $exception){
-            http_response_code(401);
             echo $exception->getMessage();
         }
     }
@@ -162,7 +161,6 @@ class UsersController implements ControllerInterface
             $this->authService->logout();
             http_response_code(200);
         }catch (AuthException $exception){
-            http_response_code(401);
             echo $exception->getMessage();
         }
     }

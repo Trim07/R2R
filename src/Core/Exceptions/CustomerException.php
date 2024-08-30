@@ -8,7 +8,7 @@ use JetBrains\PhpStorm\NoReturn;
 /**
  * @extends \Exception
  */
-class AuthException extends BaseException
+class CustomerException extends BaseException
 {
     /**
      * @param string $message

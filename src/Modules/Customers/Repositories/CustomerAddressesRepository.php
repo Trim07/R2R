@@ -28,6 +28,6 @@ class CustomerAddressesRepository extends BaseRepository
      */
     public function findByCustomerId(int $customerId): array
     {
-        return $this->table($this->customersAddresses->getTableName())->select()->where("customer_id", "=", $customerId)->get();
+        return $this->select()->where("customer_id", "=", $customerId)->get();
     }
 }

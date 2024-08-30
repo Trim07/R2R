@@ -62,23 +62,6 @@ abstract class BaseRepository{
     }
 
     /**
-     * Add a where condition to SQL query.
-     *
-     * @param string $column Column name
-     * @param string $operator Comparison operator (=, <, >, <=, >=, !=, etc.)
-     * @param mixed $value Value to compare
-     * @return $this
-     */
-    public function where(string $column, string $operator, mixed $value): self
-    {
-        $placeholder = str_replace('.', '_', $column);
-        $this->conditions[] = "$column $operator :$placeholder";
-        $this->bindings[$placeholder] = $value;
-
-        return $this;
-    }
-
-    /**
      * Build and execute the SQL query with the current conditions.
      *
      * @return array Result set
@@ -114,10 +97,55 @@ abstract class BaseRepository{
         $query = "SELECT $this->selectColumns FROM $this->table";
 
         if (!empty($this->conditions)) {
-            $conditionsString = implode(' AND ', $this->conditions);
+            $conditionsString = implode(' ', $this->conditions);
+            $conditionsString = preg_replace('/^(AND|OR) /', '', $conditionsString, 1);
             $query .= " WHERE $conditionsString";
         }
 
         return $query;
+    }
+
+    /**
+     * Add a where condition to SQL query.
+     *
+     * @param string $column Column name
+     * @param string $operator Comparison operator (=, <, >, <=, >=, !=, etc.)
+     * @param mixed $value Value to compare
+     * @return $this
+     */
+    public function where(string $column, string $operator, mixed $value): self
+    {
+        return $this->addCondition('AND', $column, $operator, $value);
+    }
+
+    /**
+     * Add an orWhere condition to SQL query.
+     *
+     * @param string $column Column name
+     * @param string $operator Comparison operator (=, <, >, <=, >=, !=, etc.)
+     * @param mixed $value Value to compare
+     * @return $this
+     */
+    public function orWhere(string $column, string $operator, mixed $value): self
+    {
+        return $this->addCondition('OR', $column, $operator, $value);
+    }
+
+    /**
+     * Add a condition to SQL query.
+     *
+     * @param string $type Condition type (AND, OR)
+     * @param string $column Column name
+     * @param string $operator Comparison operator (=, <, >, <=, >=, !=, etc.)
+     * @param mixed $value Value to compare
+     * @return $this
+     */
+    protected function addCondition(string $type, string $column, string $operator, mixed $value): self
+    {
+        $placeholder = str_replace('.', '_', $column) . count($this->bindings);
+        $this->conditions[] = "$type $column $operator :$placeholder";
+        $this->bindings[$placeholder] = $value;
+
+        return $this;
     }
 }
