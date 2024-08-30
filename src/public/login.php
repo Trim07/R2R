@@ -23,11 +23,11 @@ require_once 'index.php';
             <form id="loginForm">
                 <div class="form-group">
                     <label for="username">E-mail</label>
-                    <input type="text" class="form-control" id="email" name="email" required>
+                    <input type="text" class="form-control" id="email" name="email" maxlength="100" required>
                 </div>
                 <div class="form-group mt-1">
                     <label for="password">Senha</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <input type="password" class="form-control" id="password" name="password" maxlength="100" required>
                 </div>
                 <div class="row mt-4">
                     <div class="col-6">
