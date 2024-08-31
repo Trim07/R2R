@@ -47,7 +47,7 @@ checkAuthentication();
         </div>
 
         <div class="table-responsive">
-            <table class="table table-striped table-bordered">
+            <table id="customer-list-table" class="table table-striped table-bordered">
                 <thead class="table-dark">
                     <tr>
                         <th style="width: 10%;">#</th>

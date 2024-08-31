@@ -38,7 +38,7 @@ require_once 'index.php';
                                 <label for="email" class="col-md-2 col-form-label text-md-end">Nome</label>
 
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" id="name" name="user[name]" maxlength="100" autofocus required>
+                                    <input type="text" class="form-control" id="name" name="user[name]" pattern="^\w+$" maxlength="100" autofocus required>
                                 </div>
                             </div>
                             <div class="row mb-3">

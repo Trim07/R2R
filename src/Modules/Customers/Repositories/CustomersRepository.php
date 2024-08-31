@@ -60,9 +60,9 @@ class CustomersRepository extends BaseRepository
      */
     public function checkIfCustomerExists(Customers $customer): bool
     {
-        $search_customer = $this->orWhere("cpf", "=", $customer->cpf)
-                        ->orWhere("rg", "=", $customer->rg)
-                        ->orWhere("phone", "=", $customer->phone)
+        $search_customer = $this->orWhere("cpf", "=", $customer->getCpf())
+                        ->orWhere("rg", "=", $customer->getRg())
+                        ->orWhere("phone", "=", $customer->getPhone())
                         ->first();
         return !empty($search_customer);
     }
