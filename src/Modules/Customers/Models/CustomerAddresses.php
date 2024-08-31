@@ -11,7 +11,7 @@ use App\Core\Interfaces\ModelInterface;
  *
  * @implements ModelInterface
  */
-class CustomerAddresses implements ModelInterface
+final class CustomerAddresses implements ModelInterface
 {
 
     private readonly string $table;
