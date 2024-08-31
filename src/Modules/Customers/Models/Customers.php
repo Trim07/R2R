@@ -30,6 +30,41 @@ final class Customers implements ModelInterface
         $this->table = "customers";
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUserId(): ?int
+    {
+        return $this->user_id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getBirthday(): ?string
+    {
+        return $this->birthday;
+    }
+
+    public function getCpf(): ?string
+    {
+        return $this->cpf;
+    }
+
+    public function getRg(): ?string
+    {
+        return $this->rg;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
     /**
      * @param array $array
      * @return self
