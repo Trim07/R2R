@@ -71,5 +71,7 @@ class AuthService implements AuthServicesInterface
             'email' => $user->email,
             'logged_in' => true,
         ];
+
+
     }
 }

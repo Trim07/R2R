@@ -11,7 +11,7 @@ use Dotenv\Dotenv;
 $projectRootPath = dirname(__DIR__, 1);
 
 /**
- * Carregar as variáveis de ambiente do arquivo ./.env, poderá ser utilizado através da variavel global $[_ENV]
+ * Load environment variables from the ./.env file, can be used through the global variable $[_ENV]
  */
 $dotenv = Dotenv::createImmutable(__DIR__."\..\\");
 $dotenv->load();
@@ -19,8 +19,8 @@ $dotenv->load();
 
 
 /**
- * Inicia uma conexão Singleton com o banco de dados
- * Sempre que iniciar a aplicação, uma instancia Singleton de conexão com o banco de dados será criada
+ * Starts a Singleton connection to the database
+ * Every time you start the application, a Singleton instance of the database connection will be created.
  */
 $driver = $_ENV['DB_DRIVER'] ?? "mysql";
 DatabaseManager::initialize($driver);
@@ -28,9 +28,8 @@ DatabaseManager::initialize($driver);
 
 
 /**
- * Mapeamento das rotas e migrations de cada modulo
+ * Mapping the routes
  */
-// Carregando as rotas dos módulos
 $router = new Router();
 $modules = ['Users', 'Customers']; // Lista de módulos, pode ser dinamicamente gerado
 $modules_path = "/Modules";
@@ -43,8 +42,8 @@ foreach ($modules as $module) {
     }
 }
 
-// Criando uma instância da requisição
+// Creating a request instance
 $request = new Request();
 
-// Manipulando a requisição atual
+// Handling the current request
 $router->handleRequest($request);

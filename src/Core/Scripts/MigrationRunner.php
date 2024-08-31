@@ -6,7 +6,7 @@ namespace App\Core\Scripts;
 require_once  dirname(__DIR__, 3) . '/vendor/autoload.php';
 
 use App\Core\Database\DatabaseManager;
-use App\Providers\MigrationProvider;
+use App\Core\Migrations\MigrationProvider;
 use Dotenv\Dotenv;
 
 /**
