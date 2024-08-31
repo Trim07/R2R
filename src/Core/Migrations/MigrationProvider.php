@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Core\Migrations;
 
 use App\Core\Database\DatabaseManager;
 use InvalidArgumentException;
@@ -11,7 +11,7 @@ use InvalidArgumentException;
  */
 class MigrationProvider
 {
-    private array $directories = ['migrations']; // Diretórios padrão de migrations
+    private array $directories = ['migrations']; // Default migration directories
 
     public function __construct(
         private readonly DatabaseManager $databaseManager = new DatabaseManager

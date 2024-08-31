@@ -1,5 +1,8 @@
 <?php
 require_once 'index.php';
+require_once __DIR__ . '/../../Utils/Helper.php';
+
+checkAuthentication();
 ?>
 
 <!DOCTYPE html>
@@ -8,17 +11,69 @@ require_once 'index.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de clientes</title>
+    <title>R2R - Lista de clientes</title>
+    <link rel="icon" href="/images/logo.ico" sizes="16x16" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .navbar-custom {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-custom .navbar-brand {
+            color: #343a40;
+            height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-custom .navbar-nav .nav-item .nav-link {
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-custom .btn-outline-primary {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .navbar-custom .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <div class="container-fluid">
+
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="/images/logo.svg" alt="Logo" width="60" height="60" class="d-inline-block align-text-top">
+                <span class="ms-2">Ready To Register</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-dark btn-sm" href="#" onclick="logoutUser()">Sair</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid mt-5">
+
         <div class="header d-flex justify-content-between align-items-center mb-4">
             <h2>Lista de clientes</h2>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerModal">Novo cliente</button>
         </div>
-        <div class="table-container">
+
+        <div class="table-responsive">
             <table class="table table-striped table-bordered">
                 <thead class="table-dark">
                     <tr>
@@ -143,7 +198,20 @@ require_once 'index.php';
 
     <script>
         $(document).ready(function() {
-            axios.defaults.withCredentials = true;
+            // axios.defaults.withCredentials = true;
+            axios.interceptors.response.use(
+                (response) => response,
+                (error) => {
+                    if (
+                        error.response &&
+                        (error.response.status === 419 || error.response.status === 401)
+                    ) {
+                        window.location.href = "/login.php";
+                    }
+                    return Promise.reject(error);
+                }
+            );
+
             loadCustomers();
             $('input[type="date"], input[type="month"]').prop('max', '9999-12-31');
         });
@@ -194,6 +262,7 @@ require_once 'index.php';
 
         // Load customer details data
         let addressIndex = 0;
+
         function loadCustomerData(customerId) {
             axios.get(`/api/customers/${customerId}`)
                 .then(function(response) {
@@ -236,7 +305,7 @@ require_once 'index.php';
 
         // Function to add a new address row
         function addAddressRow(index, address = {}) {
-            
+
             const addressRow = `
                     <tr id="address_row_${index}">
                         <td><input type="text" class="form-control" name="addresses[${index}][name]" maxlength="30" value="${address.name || ''}" required></td>
@@ -348,7 +417,7 @@ require_once 'index.php';
                             .catch(function(error) {
                                 Swal.fire({
                                     title: "Ops...",
-                                    text: `Ocorreu um erro ao deletar o cliente.${error.response.data.error}`,
+                                    text: `Ocorreu um erro ao remover o cliente.\n${error.response.data.error}`,
                                     icon: "error",
                                     button: "OK",
                                 });
@@ -368,28 +437,34 @@ require_once 'index.php';
             });
         }
 
-        document.addEventListener('submit', function(event) {
-            $('input:invalid').each(function() {
-                // Find the tab-pane that this element is inside, and get the id
-                var $closest = $(this).closest('.tab-pane');
-                var id = $closest.attr('id');
-
-                // Find the link that corresponds to the pane and have it show
-                $('.nav a[href="#' + id + '"]').tab('show');
-
-                // Only want to do it once
-                return false;
-            });
-        });
-
-        function cleanCustomerFieldsBeforeSubmit(){
+        function cleanCustomerFieldsBeforeSubmit() {
             $('#customerForm').find('.cpf, .rg, .phone, .cep').each((index, input) => {
-                console.log(input, index);
-                
                 $(input).unmask();
             });
         }
 
+        function logoutUser() {
+            axios.post('/api/users/logout')
+                .then(function(response) {
+                    Swal.fire({
+                        title: "Sucesso",
+                        text: "Logout realizado com sucesso!",
+                        icon: "success",
+                        confirmButtonText: "Ok",
+                    });
+                    setTimeout(() => {
+                        window.location.href = "/login.php";
+                    }, 1000);
+                })
+                .catch(function(error) {
+                    Swal.fire({
+                        title: "Ops...",
+                        text: `Ocorreu um erro ao sair do sistema. \n${error.response.data.error}`,
+                        icon: "error",
+                        button: "OK",
+                    });
+                });
+        }
     </script>
 </body>
 

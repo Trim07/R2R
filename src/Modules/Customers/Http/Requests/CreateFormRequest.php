@@ -29,7 +29,7 @@ class CreateFormRequest extends FormRequest
                 "phone" => "required|string|max:11"
             ],
             'addresses' => [
-                '*' => [ // '*' indica qualquer índice numérico (array de objetos)
+                '*' => [ // '*' indicates any numeric index (array of objects)
                     "name" => "required|string|max:30",
                     "street" => "required|string|max:50",
                     "number" => "required|string|max:10",
