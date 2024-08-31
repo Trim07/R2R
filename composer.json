@@ -18,14 +18,14 @@
         "vlucas/phpdotenv": "^5.6"
     },
     "scripts": {
-        "post-autoload-dump": [
-            "php src\\Core\\Scripts\\MigrationRunner.php"
-        ],
         "run-server": [
             "php src\\Core\\Scripts\\runserver.php"
         ],
         "run-migrations": [
             "php src\\Core\\Scripts\\MigrationRunner.php"
         ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
     }
 }

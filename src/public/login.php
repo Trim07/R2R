@@ -45,7 +45,7 @@ require_once 'index.php';
                                 <label for="password" class="col-md-2 col-form-label text-md-end">Senha</label>
 
                                 <div class="col-md-9">
-                                    <input type="password" class="form-control" id="password" name="password" maxlength="100" required>
+                                    <input type="password" class="form-control" id="password" name="password" minlength="5" maxlength="100" required>
                                 </div>
                             </div>
                             <div class="row mb-0">

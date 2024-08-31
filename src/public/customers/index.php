@@ -56,7 +56,7 @@ checkAuthentication();
                         <th style="width: 15%;">CPF</th>
                         <th style="width: 15%;">RG</th>
                         <th style="width: 15%;">Data Nascimento</th>
-                        <th style="width: 5%;">Detalhes</th>
+                        <th style="width: 5%;" class="text-center">Detalhes</th>
                     </tr>
                 </thead>
                 <tbody id="customers-table-body">
@@ -97,19 +97,19 @@ checkAuthentication();
 
                                     <div class="col-4">
                                         <label for="customerModal-phone" class="form-label">Telefone</label>
-                                        <input type="string" class="form-control phone" id="customerModal-phone" name="customer[phone]" required>
+                                        <input type="text" class="form-control phone" id="customerModal-phone" name="customer[phone]" required>
                                     </div>
 
                                     <div class="col-4">
                                         <label for="customerModal-cpf" class="form-label">CPF</label>
-                                        <input type="string" class="form-control" id="customerModal-cpf" name="customer[cpf]" required>
+                                        <input type="text" class="form-control cpf" id="customerModal-cpf" name="customer[cpf]" required>
                                     </div>
                                 </div>
 
                                 <div class="row mt-2">
                                     <div class="col-4">
                                         <label for="customerModal-rg" class="form-label">RG</label>
-                                        <input type="string" class="form-control rg" id="customerModal-rg" name="customer[rg]" required>
+                                        <input type="text" class="form-control rg" id="customerModal-rg" name="customer[rg]" required>
                                     </div>
 
                                     <div class="col-4">
@@ -129,7 +129,7 @@ checkAuthentication();
                                                 <th>Número</th>
                                                 <th>Bairro</th>
                                                 <th>Cidade</th>
-                                                <th>U.F</th>
+                                                <th>UF</th>
                                                 <th>País (Sigla)</th>
                                                 <th>CEP</th>
                                                 <th>Complemento</th>
