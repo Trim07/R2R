@@ -10,7 +10,7 @@ use App\Modules\Customers\Http\Requests\ShowFormRequest;
 use App\Modules\Customers\Http\Requests\UpdateFormRequest;
 use App\Modules\Customers\Repositories\CustomersRepository;
 use App\Modules\Customers\Services\CustomersServices;
-
+use App\Modules\Users\Services\AuthService;
 
 /**
  * @implements ControllerInterface

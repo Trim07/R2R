@@ -20,14 +20,14 @@ Antes de instalar e rodar o R2R, certifique-se de que o seu ambiente atenda aos 
 
 - PHP 8.1
 - MySQL
-- Composer 2.4
+- Composer 2.x
 
 ## Instalação
 
 Para inicializar o projeto, siga os passos abaixo:
 
 1. **Instale o PHP 8.1**:  
-   Se o PHP 8.1 não estiver instalado em sua máquina, você pode baixá-lo e instalá-lo diretamente ou utilizar o pacote [XAMPP](https://www.apachefriends.org/index.html), que inclui o PHP 8.1, MySQL, e outras ferramentas essenciais.
+   Se o PHP 8.1 não estiver instalado em sua máquina, você pode baixá-lo e instalá-lo diretamente ou utilizar o pacote [XAMPP](https://www.apachefriends.org/pt_br/download.html), que inclui o PHP 8.1, MySQL, e outras ferramentas essenciais.
 
 2. **Instale o MySQL**:  
    Caso o MySQL não esteja instalado, você pode baixá-lo separadamente ou utilizar o XAMPP, que já inclui o MySQL integrado.
@@ -35,11 +35,18 @@ Para inicializar o projeto, siga os passos abaixo:
 3. **Instale o Composer**:  
    O Composer é necessário para gerenciar as dependências do projeto. Se ainda não o    tiver instalado, você pode baixá-lo em [getcomposer.org](https://getcomposer.org/download/).
 
-4. **Clone o repositório**:  
+4. **Instale o MySQl Workbench (Opcional)**:  
+   Para um melhor gerenciamento do banco de dados, recomendamos que baixe o MySQL Workbench em [dev.mysql](https://dev.mysql.com/downloads/workbench/).
+
+5. **Clone o repositório**:  
    Clone o repositório do projeto na sua máquina local.
    ```bash
-   git clone https://github.com/Trim07/R2R.git
-   cd R2R
+      git clone https://github.com/Trim07/R2R.git
+      cd R2R
+
+6. **Intalar dependências**:  
+   Utilize o comando: **composer install**
+
 
 ## Configuração
 
@@ -52,6 +59,11 @@ Para inicializar o projeto, siga os passos abaixo:
 2. **Criação do banco de dados**:  
    - Crie um banco de dados no MySQL utilizando o nome especificado no arquivo `.env`.
    - Garanta que o usuário e senha configurados no `.env` tenham as permissões necessárias para acessar e manipular o banco de dados.
+
+3. **Criação das tabelas no banco de dados**:
+   - Use o comando **composer run-migrations** para criar as migrações
+   - Ou use o comando **composer dump-autoload**.
+
 
 ## Inicialização do projeto
 

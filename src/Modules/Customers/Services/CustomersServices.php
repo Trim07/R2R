@@ -8,6 +8,7 @@ use App\Core\Interfaces\ServicesInterface;
 use App\Core\Services\DatabaseServices;
 use App\Modules\Customers\Models\Customers;
 use App\Modules\Customers\Repositories\CustomersRepository;
+use App\Modules\Users\Services\AuthService;
 
 /**
  * Can be used to access external services or manipulate the database, for example
@@ -31,7 +32,7 @@ class CustomersServices implements ServicesInterface
      */
     function create(array $data): void
     {
-        $data["customer"]["user_id"] = 1;
+        $data["customer"]["user_id"] = AuthService::getSession()["id"]; // get current logged user.;
         $customerModel = $this->mapFields($data["customer"]);
         if($this->customersRepository->checkIfCustomerExists($customerModel) === false){
             $customer = $this->databaseServices->insert($customerModel); // insert customers into table
@@ -52,7 +53,7 @@ class CustomersServices implements ServicesInterface
      */
     function update(array $data): void
     {
-        $data["customer"]["user_id"] = 1;
+        $data["customer"]["user_id"] = AuthService::getSession()["id"]; // get current logged user.;
         $customerModel = $this->mapFields($data["customer"]);
         $this->databaseServices->update($customerModel); // update customer
 
