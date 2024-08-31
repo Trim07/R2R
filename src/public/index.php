@@ -1,9 +1,9 @@
 <?php
 
-use Trimcorp\R2r\services\Database\DatabaseManager;
-
 require_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/../configs/bootstrap.php';
+require_once __DIR__ . '/../Core/bootstrap.php';
 
-
-$pdo = DatabaseManager::getConnection();
+if (basename($_SERVER['PHP_SELF']) == 'index.php') {
+    header('Location: customers/index.php');
+    exit;
+}

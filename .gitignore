@@ -1,6 +1,5 @@
-/.idea
+.idea/
 /.phpstorm.meta.php
 /_ide_helper*
-/vendor
-.idea
-vendor
+vendor/
+.phpunit.result.cache

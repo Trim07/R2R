@@ -3,7 +3,7 @@
     "description": "A customers register system",
     "autoload": {
         "psr-4": {
-            "Trimcorp\\R2r\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
@@ -16,5 +16,16 @@
       "php": "^8.1",
       "ext-pdo": "*",
         "vlucas/phpdotenv": "^5.6"
+    },
+    "scripts": {
+        "run-server": [
+            "php src\\Core\\Scripts\\runserver.php"
+        ],
+        "run-migrations": [
+            "php src\\Core\\Scripts\\MigrationRunner.php"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
     }
 }
