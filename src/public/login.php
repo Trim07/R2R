@@ -12,6 +12,7 @@ require_once 'index.php';
     <title>R2R - Login</title>
     <link rel="icon" href="/images/logo.ico" sizes="16x16" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/resources/css/users/login.css" rel="stylesheet">
 </head>
 
 <body>
@@ -70,40 +71,6 @@ require_once 'index.php';
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#loginForm').on('submit', function(event) {
-                event.preventDefault();
-                axios.defaults.withCredentials = true;
-
-                let formData = new FormData(this);
-                axios.post('/api/users/login', formData, {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        withCredentials: true
-                    })
-                    .then(response => {
-                        Swal.fire({
-                            title: "Sucesso",
-                            text: "Login realizado com sucesso!",
-                            icon: "success",
-                            confirmButtonText: "Ok",
-                        });
-                        setTimeout(() => {
-                            window.location.href = "/customers/index.php";
-                        }, 1000);
-                    })
-                    .catch(error => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: "Ops...",
-                            text: `Ocorreu um erro durante o login:\n${error.response.data.error}`,
-                        });
-                    });
-            });
-        });
-    </script>
+    <script src="/resources/js/users/login.js"></script>
 </body>
-
 </html>

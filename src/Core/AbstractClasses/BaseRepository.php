@@ -109,7 +109,7 @@ abstract class BaseRepository{
      * Add a where condition to SQL query.
      *
      * @param string $column Column name
-     * @param string $operator Comparison operator (=, <, >, <=, >=, !=, etc.)
+     * @param string $operator Comparison operator (=, <, >, <=, >=, != and other conditions supported by the database)
      * @param mixed $value Value to compare
      * @return $this
      */

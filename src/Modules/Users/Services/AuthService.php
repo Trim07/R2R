@@ -60,6 +60,17 @@ class AuthService implements AuthServicesInterface
     }
 
     /**
+     * Get session data
+     *
+     * @return array
+     */
+    public static function getSession(): array
+    {
+        session_start();
+        return $_SESSION['user'];
+    }
+
+    /**
      * @param Users $user
      * @return void
      */
@@ -71,7 +82,5 @@ class AuthService implements AuthServicesInterface
             'email' => $user->email,
             'logged_in' => true,
         ];
-
-
     }
 }
