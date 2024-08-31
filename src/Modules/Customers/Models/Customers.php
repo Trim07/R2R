@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Modules\Customers\Models;
 
 use App\Core\Interfaces\ModelInterface;
@@ -10,21 +11,21 @@ use App\Core\Interfaces\ModelInterface;
  *
  * @implements ModelInterface
  */
-class Customers implements ModelInterface
+final class Customers implements ModelInterface
 {
 
     private readonly string $table;
 
     function __construct(
-        public ?int $id = null,
-        public ?int $user_id = null,
-        public ?string $name = null,
-        public ?string $birthday = null,
-        public ?string $cpf = null,
-        public ?string $rg = null,
-        public ?string $phone = null,
-        public ?string $created_at = null,
-        public ?string $updated_at = null,
+        private ?int $id = null,
+        private ?int $user_id = null,
+        private ?string $name = null,
+        private ?string $birthday = null,
+        private ?string $cpf = null,
+        private ?string $rg = null,
+        private ?string $phone = null,
+        private ?string $created_at = null,
+        private ?string $updated_at = null,
     ) {
         $this->table = "customers";
     }

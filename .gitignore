@@ -2,3 +2,4 @@
 /.phpstorm.meta.php
 /_ide_helper*
 vendor/
+.phpunit.result.cache

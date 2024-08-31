@@ -10,7 +10,7 @@ use App\Core\Interfaces\ModelInterface;
  *
  * @implements ModelInterface
  */
-class Users implements ModelInterface
+final class Users implements ModelInterface
 {
 
     private readonly string $table;

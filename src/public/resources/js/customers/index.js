@@ -56,7 +56,7 @@ function loadCustomers() {
             Swal.fire({
                 icon: 'error',
                 title: "Ops...",
-                text: `Ocorreu um erro ao buscar dados dos clientes:\n${error.response.data.error}`,
+                text: `Ocorreu um erro ao buscar dados dos clientes:\n${error.response.data.error || ""}`,
             });
         });
 }
@@ -136,6 +136,10 @@ function removeAddress(element) {
     closest_table_body_row.remove();
 }
 
+$('#customerModal').on('shown.bs.modal', function() {
+    setInputMasks();
+});
+
 $('#customerModal').on('hidden.bs.modal', function() {
     // clean form
     $('#customerForm').trigger('reset');
@@ -147,6 +151,7 @@ $('#customerModal').on('hidden.bs.modal', function() {
     $('#addressesTable tbody').html('');
 
     $('#delete-customer').addClass("d-none"); // hide "Remover" button
+    setInputMasks();
 });
 
 $('#customerForm').on('submit', function(event) {
@@ -180,7 +185,7 @@ $('#customerForm').on('submit', function(event) {
         .catch(function(error) {
             Swal.fire({
                 title: "Ops...",
-                text: `Ocorreu um erro ao salvar o cliente:\n${error.response.data.error}`,
+                text: `Ocorreu um erro ao salvar o cliente:\n${error.response.data.error || ""}`,
                 icon: "error",
                 button: "OK",
             });
@@ -219,7 +224,7 @@ $('#delete-customer').on('click', function() {
                     .catch(function(error) {
                         Swal.fire({
                             title: "Ops...",
-                            text: `Ocorreu um erro ao remover o cliente.\n${error.response.data.error}`,
+                            text: `Ocorreu um erro ao remover o cliente.\n${error.response.data.error || ""}`,
                             icon: "error",
                             button: "OK",
                         });
@@ -261,7 +266,7 @@ function logoutUser() {
         .catch(function(error) {
             Swal.fire({
                 title: "Ops...",
-                text: `Ocorreu um erro ao sair do sistema. \n${error.response.data.error}`,
+                text: `Ocorreu um erro ao sair do sistema. \n${error.response.data.error || ""}`,
                 icon: "error",
                 button: "OK",
             });
