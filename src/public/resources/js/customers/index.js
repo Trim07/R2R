@@ -174,7 +174,7 @@ $('#customerForm').on('submit', function(event) {
                 button: "OK",
             });
             setTimeout(() => {
-                // location.reload();
+                location.reload();
             }, 1000);
         })
         .catch(function(error) {
