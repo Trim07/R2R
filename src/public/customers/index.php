@@ -64,29 +64,29 @@ require_once 'index.php';
                                     <input type="hidden" name="customer[id]">
                                     <div class="col-4">
                                         <label for="customerModal-name" class="form-label">Nome</label>
-                                        <input type="text" class="form-control" id="customerModal-name" name="customer[name]" maxlength="100" required>
+                                        <input type="text" class="form-control" id="customerModal-name" name="customer[name]" minlength="5" maxlength="100" required>
                                     </div>
 
                                     <div class="col-4">
                                         <label for="customerModal-phone" class="form-label">Telefone</label>
-                                        <input type="text" class="form-control" id="customerModal-phone" name="customer[phone]" maxlength="11" required>
+                                        <input type="string" class="form-control phone" id="customerModal-phone" name="customer[phone]" required>
                                     </div>
 
                                     <div class="col-4">
                                         <label for="customerModal-cpf" class="form-label">CPF</label>
-                                        <input type="text" class="form-control" id="customerModal-cpf" name="customer[cpf]" maxlength="11" required>
+                                        <input type="string" class="form-control" id="customerModal-cpf" name="customer[cpf]" required>
                                     </div>
                                 </div>
 
                                 <div class="row mt-2">
                                     <div class="col-4">
                                         <label for="customerModal-rg" class="form-label">RG</label>
-                                        <input type="text" class="form-control" id="customerModal-rg" name="customer[rg]" maxlength="10" required>
+                                        <input type="string" class="form-control rg" id="customerModal-rg" name="customer[rg]" required>
                                     </div>
 
                                     <div class="col-4">
-                                        <label for="customerModal-birthday" class="form-label">Data aniversário</label>
-                                        <input type="date" class="form-control" id="customerModal-birthday" name="customer[birthday]" required>
+                                        <label for="customerModal-birthday" class="form-label">Data nascimento</label>
+                                        <input type="date" class="form-control" id="customerModal-birthday" name="customer[birthday]" min="1900-01-01" max="2024-01-01" required>
                                     </div>
                                 </div>
                             </div>
@@ -101,8 +101,8 @@ require_once 'index.php';
                                                 <th>Número</th>
                                                 <th>Bairro</th>
                                                 <th>Cidade</th>
-                                                <th>Estado</th>
-                                                <th>País</th>
+                                                <th>U.F</th>
+                                                <th>País (Sigla)</th>
                                                 <th>CEP</th>
                                                 <th>Complemento</th>
                                                 <th>Ação</th>
@@ -120,7 +120,7 @@ require_once 'index.php';
                     <div class="modal-footer row">
                         <div class="row">
                             <div class="col-4">
-                                <button type="button" class="btn btn-danger float-start" id="delete-customer">Remover</button>
+                                <button type="button" class="btn btn-danger float-start d-none" id="delete-customer">Remover</button>
                             </div>
                             <div class="col-8">
                                 <button type="submit" class="btn btn-primary float-end ms-2" id="saveCustomerBtn">Salvar</button>
@@ -145,6 +145,7 @@ require_once 'index.php';
         $(document).ready(function() {
             axios.defaults.withCredentials = true;
             loadCustomers();
+            $('input[type="date"], input[type="month"]').prop('max', '9999-12-31');
         });
 
         function loadCustomers() {
@@ -172,7 +173,7 @@ require_once 'index.php';
                                 <td><input class="form-control phone" value="${partner.phone}" disabled></td>
                                 <td><input class="form-control cpf" value="${partner.cpf}" disabled></td>
                                 <td><input class="form-control rg" value="${partner.rg}" disabled></td>
-                                <td><input class="form-control birthday" value="${partner.birthday}" disabled></td>
+                                <td><input type="date" class="form-control" value="${partner.birthday}" disabled></td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" onclick="loadCustomerData(${partner.id})">Detalhes</a>
                                 </td>
@@ -193,10 +194,10 @@ require_once 'index.php';
 
         // Load customer details data
         let addressIndex = 0;
-
         function loadCustomerData(customerId) {
             axios.get(`/api/customers/${customerId}`)
                 .then(function(response) {
+
                     const customer_data = response.data.customer;
                     const addresses_data = response.data.addresses;
 
@@ -220,6 +221,8 @@ require_once 'index.php';
 
                     $('input[name="customer[id]"]').val(customer_data.id);
 
+                    $('#delete-customer').removeClass("d-none"); // show "Remover" button
+                    setInputMasks();
                     $('#customerModal').modal('show');
                 })
                 .catch(function(error) {
@@ -233,6 +236,7 @@ require_once 'index.php';
 
         // Function to add a new address row
         function addAddressRow(index, address = {}) {
+            
             const addressRow = `
                     <tr id="address_row_${index}">
                         <td><input type="text" class="form-control" name="addresses[${index}][name]" maxlength="30" value="${address.name || ''}" required></td>
@@ -242,7 +246,7 @@ require_once 'index.php';
                         <td><input type="text" class="form-control" name="addresses[${index}][city]" maxlength="50" value="${address.city || ''}" required></td>
                         <td><input type="text" class="form-control" name="addresses[${index}][state]" maxlength="4" value="${address.state || ''}" required></td>
                         <td><input type="text" class="form-control" name="addresses[${index}][country]" maxlength="3" value="${address.country || ''}" required></td>
-                        <td><input type="text" class="form-control" name="addresses[${index}][zipcode]" maxlength="8" value="${address.zipcode || ''}" required></td>
+                        <td><input type="text" class="form-control cep" name="addresses[${index}][zipcode]" maxlength="8" value="${address.zipcode || ''}" required></td>
                         <td><input type="text" class="form-control" name="addresses[${index}][complement]" maxlength="50" value="${address.complement || ''}"></td>
                         <td><button type="button" class="btn btn-danger btn-sm remove-address" onclick="removeAddress(this)">Remover</button></td>
                     </tr>`;
@@ -253,6 +257,7 @@ require_once 'index.php';
         // Add address row
         $('#addAddress').on('click', function() {
             addAddressRow(addressIndex);
+            setInputMasks();
             addressIndex++;
         });
 
@@ -270,10 +275,14 @@ require_once 'index.php';
 
             // clean address table
             $('#addressesTable tbody').html('');
+
+            $('#delete-customer').addClass("d-none"); // hide "Remover" button
         });
 
         $('#customerForm').on('submit', function(event) {
             event.preventDefault();
+
+            cleanCustomerFieldsBeforeSubmit();
 
             let formData = new FormData(this);
             let method = $('input[name="customer[id]"]').val().length ? "PUT" : "POST";
@@ -294,7 +303,9 @@ require_once 'index.php';
                         icon: "success",
                         button: "OK",
                     });
-                    loadCustomers();
+                    setTimeout(() => {
+                        // location.reload();
+                    }, 1000);
                 })
                 .catch(function(error) {
                     Swal.fire({
@@ -304,6 +315,8 @@ require_once 'index.php';
                         button: "OK",
                     });
                 });
+
+            setInputMasks();
         });
 
         $('#delete-customer').on('click', function() {
@@ -330,7 +343,7 @@ require_once 'index.php';
                                     icon: "success",
                                     button: "OK",
                                 })
-                                loadCustomerData();
+                                loadCustomers();
                             })
                             .catch(function(error) {
                                 Swal.fire({
@@ -348,14 +361,10 @@ require_once 'index.php';
             $('.phone').mask('(00) 00000-0000');
             $('.cpf').mask('000.000.000-00');
             $('.rg').mask('00.000.000-00');
-            formatDateToPtBR();
-        }
+            $('.cep').mask('00000-000');
 
-        function formatDateToPtBR() {
-
-            $.each($('.birthday'), (index, input) => {
-                const date = new Date($(input).val());
-                $(input).val(date.toLocaleDateString('pt-BR'));
+            $('#customerForm').find('.cpf, .rg, .phone, .cep').each((index, input) => {
+                $(input).trigger('input');
             });
         }
 
@@ -372,6 +381,14 @@ require_once 'index.php';
                 return false;
             });
         });
+
+        function cleanCustomerFieldsBeforeSubmit(){
+            $('#customerForm').find('.cpf, .rg, .phone, .cep').each((index, input) => {
+                console.log(input, index);
+                
+                $(input).unmask();
+            });
+        }
 
     </script>
 </body>

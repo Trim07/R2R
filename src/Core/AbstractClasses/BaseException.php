@@ -21,6 +21,8 @@ abstract class BaseException extends \Exception
     }
 
     /**
+     * Get array errors
+     * 
      * @return array
      */
     public function getErrors(): array
@@ -29,6 +31,8 @@ abstract class BaseException extends \Exception
     }
 
     /**
+     * Abstract function to handle errors
+     * 
      * @return void
      */
     abstract function handle(): void;

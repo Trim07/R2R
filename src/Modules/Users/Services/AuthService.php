@@ -27,7 +27,7 @@ class AuthService implements AuthServicesInterface
      */
     public function login(array $data): bool
     {
-        $getUser = $this->usersRepository->where("email", "=", $data["email"])->first();
+        $getUser = $this->usersRepository->where("email", "=", $data["email"])->first() ?? [];
         $user = $this->usersServices->mapFields($getUser);
         if ($user->id && password_verify($data["password"], $user->password)) {
             $this->startSession($user);

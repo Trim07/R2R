@@ -3,9 +3,11 @@
 namespace App\Modules\Users\Services;
 
 
+use App\Core\Exceptions\UserException;
 use App\Core\Interfaces\ServicesInterface;
 use App\Core\Services\DatabaseServices;
 use App\Modules\Users\Models\Users;
+use App\Modules\Users\Repositories\UsersRepository;
 
 /**
  * Can be used to access external services or manipulate the database, for example
@@ -17,6 +19,7 @@ class UsersServices implements ServicesInterface
 
     function __construct(
         private readonly DatabaseServices $databaseServices = new DatabaseServices(),
+        private readonly UsersRepository $usersRepository = new UsersRepository()
     ){}
 
     /**
@@ -24,12 +27,17 @@ class UsersServices implements ServicesInterface
      *
      * @param array $data
      * @return void
+     * @throws UserException
      */
     function create(array $data): void
     {
         $data["user"]["password"] = password_hash($data["user"]["password"], PASSWORD_BCRYPT);
         $userModel = $this->mapFields($data["user"]);
-        $this->databaseServices->insert($userModel); // insert users into table
+        if($this->usersRepository->checkIfCustomerExists($userModel) === false){
+            $this->databaseServices->insert($userModel); // insert users into table
+            return;
+        }
+        throw new UserException("Já existe um usuário cadastrado com essas informações. Faça o login para continuar.", [], 409);
     }
 
     /**

@@ -30,15 +30,15 @@ class CreateFormRequest extends FormRequest
             ],
             'addresses' => [
                 '*' => [ // '*' indica qualquer índice numérico (array de objetos)
-                    "name" => "required|string",
-                    "street" => "required|string",
-                    "number" => "required|string",
-                    "neighborhood" => "required|string",
-                    "city" => "required|string",
-                    "state" => "required|string",
-                    "country" => "required|string",
-                    "zipcode" => "required|string",
-                    "complement" => "string",
+                    "name" => "required|string|max:30",
+                    "street" => "required|string|max:50",
+                    "number" => "required|string|max:10",
+                    "neighborhood" => "required|string|max:30",
+                    "city" => "required|string|max:50",
+                    "state" => "required|string|max:4",
+                    "country" => "required|string|max:3",
+                    "zipcode" => "required|string|max:8",
+                    "complement" => "string|max:50",
                 ]
             ]
         ];

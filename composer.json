@@ -23,6 +23,9 @@
         ],
         "run-server": [
             "php src\\Core\\Scripts\\runserver.php"
+        ],
+        "run-migrations": [
+            "php src\\Core\\Scripts\\MigrationRunner.php"
         ]
     }
 }
