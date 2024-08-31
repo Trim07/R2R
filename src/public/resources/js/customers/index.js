@@ -13,30 +13,6 @@ $(document).ready(function() {
         }
     );
 
-    $(document).ready(function() {
-        $('#customer-list-table').DataTable({
-            "paging": true,         // Ativa a paginação
-            "searching": true,      // Ativa o campo de busca
-            "ordering": true,       // Ativa a ordenação das colunas
-            "info": true,           // Mostra informações sobre o número de entradas
-            "lengthMenu": [5, 10, 25, 50], // Número de entradas por página
-            "language": {
-                "lengthMenu": "Mostrar _MENU_ entradas por página",
-                "zeroRecords": "Nenhum registro encontrado",
-                "info": "Mostrando página _PAGE_ de _PAGES_",
-                "infoEmpty": "Nenhum registro disponível",
-                "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                "search": "Buscar:",
-                "paginate": {
-                    "first": "Primeiro",
-                    "last": "Último",
-                    "next": "Próximo",
-                    "previous": "Anterior"
-                },
-            }
-        });
-    });
-
     loadCustomers();
     $('input[type="date"], input[type="month"]').prop('max', '9999-12-31');
 });
