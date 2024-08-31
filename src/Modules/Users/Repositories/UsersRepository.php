@@ -4,6 +4,7 @@ namespace App\Modules\Users\Repositories;
 
 use App\Core\AbstractClasses\BaseRepository;
 use App\Modules\Users\Models\Users;
+use http\Client\Curl\User;
 
 /**
  * Read data from costumers table
@@ -50,5 +51,15 @@ class UsersRepository extends BaseRepository
             throw new \Exception("Usuário não encontrado");
         }
         return $users[0];
+    }
+
+    /**
+     * @param Users $user
+     * @return bool
+     */
+    public function checkIfCustomerExists(Users $user): bool
+    {
+        $search_customer = $this->where("email", "=", $user->email)->first();
+        return !empty($search_customer);
     }
 }

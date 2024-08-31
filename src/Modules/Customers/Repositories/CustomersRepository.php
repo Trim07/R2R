@@ -54,6 +54,10 @@ class CustomersRepository extends BaseRepository
         return $customer[0];
     }
 
+    /**
+     * @param Customers $customer
+     * @return bool
+     */
     public function checkIfCustomerExists(Customers $customer): bool
     {
         $search_customer = $this->orWhere("cpf", "=", $customer->cpf)

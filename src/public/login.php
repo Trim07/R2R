@@ -22,8 +22,8 @@ require_once 'index.php';
             <hr>
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="username">E-mail</label>
-                    <input type="text" class="form-control" id="email" name="email" maxlength="100" required>
+                    <label for="name">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" maxlength="100" required>
                 </div>
                 <div class="form-group mt-1">
                     <label for="password">Senha</label>

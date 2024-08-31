@@ -22,8 +22,10 @@ class MigrationRunner
      */
     public function run(): void
     {
+        $projectRootPath = dirname(__DIR__, 2);
+
         // load .env data
-        $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+        $dotenv = Dotenv::createImmutable($projectRootPath);
         $dotenv->load();
 
         // initialize DatabaseManager
@@ -31,9 +33,9 @@ class MigrationRunner
         DatabaseManager::initialize($driver);
 
         // Configuration of migrations
-        $modules = ['Customers', 'Users']; // Lista de módulos
+        $modules = ['Customers', 'Users'];
         $modules_path = "/Modules";
-        $projectRootPath = dirname(__DIR__, 2);
+
 
         $migrationManager = new MigrationProvider();
         foreach ($modules as $module) {

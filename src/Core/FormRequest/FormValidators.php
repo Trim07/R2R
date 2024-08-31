@@ -185,7 +185,7 @@ class FormValidators
      * @param string|null $format
      * @return void
      */
-    private function validateDate(string|null$field, string|null$value, string|null $format = 'Y-m-d')
+    private function validateDate(string|null $field, string|null $value, string|null $format = 'Y-m-d'): void
     {
         $comp_date = \DateTime::createFromFormat($format, $value);
         $isValid = $comp_date && $comp_date->format($format) === $value;

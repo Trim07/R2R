@@ -36,7 +36,7 @@ class CustomersServices implements ServicesInterface
         if($this->customersRepository->checkIfCustomerExists($customerModel) === false){
             $customer = $this->databaseServices->insert($customerModel); // insert customers into table
             if(!empty($data["addresses"])){
-                (new CustomerAddressesServices)->update($data["addresses"], $customer->id); // update addresses
+                (new CustomerAddressesServices)->create($data["addresses"], $customer->id); // update addresses
             }
             return;
         }

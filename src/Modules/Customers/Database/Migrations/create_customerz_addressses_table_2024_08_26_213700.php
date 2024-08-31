@@ -23,7 +23,6 @@ return new class implements MigrationsInterface
                     `country` CHAR(3) NOT NULL DEFAULT 'BRA',
                     `zipcode` CHAR(8) NOT NULL,
                     `complement` VARCHAR(50),
-                    `default` BOOLEAN NOT NULL,
                     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
                 ) ENGINE=INNODB;
@@ -39,8 +38,6 @@ return new class implements MigrationsInterface
                     `customer_addresses` ADD INDEX `customer_addresses_country_index`(`country`);
                 ALTER TABLE
                     `customer_addresses` ADD INDEX `customer_addresses_zipcode_index`(`zipcode`);
-                ALTER TABLE
-                    `customer_addresses` ADD INDEX `customer_addresses_default_index`(`default`);
                 ALTER TABLE
                     `customer_addresses` ADD CONSTRAINT `customer_addresses_customer_id_foreign` FOREIGN KEY(`customer_id`) REFERENCES `customers`(`id`);
             ";

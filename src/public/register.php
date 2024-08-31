@@ -22,12 +22,12 @@
             <hr>
             <form id="registerForm">
                 <div class="form-group">
-                    <label for="username">Nome de Usuário</label>
-                    <input type="text" class="form-control" id="username" name="user[name]" maxlength="100" required>
+                    <label for="name">Nome de Usuário</label>
+                    <input type="text" class="form-control" id="name" name="user[name]" maxlength="100" required>
                 </div>
                 <div class="form-group mt-1">
-                    <label for="username">E-mail</label>
-                    <input type="text" class="form-control" id="email" name="user[email]" maxlength="100" required>
+                    <label for="email">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="user[email]" maxlength="100" required>
                 </div>
                 <div class="form-group mt-1">
                     <label for="password">Senha</label>
@@ -80,7 +80,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: "Ops...",
-                    text: `Ocorreu um erro ao buscar dados dos clientes:\n${error.response.data.error}`,
+                    text: `Ocorreu um erro durante o cadastro do usuário:\n${error.response.data.error}`,
                 });
             });
         });
