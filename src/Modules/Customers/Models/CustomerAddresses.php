@@ -8,8 +8,6 @@ use App\Core\Interfaces\ModelInterface;
 /**
  *  Customer Addresses Model Class
  *  Contains whole fields from respective table
- *
- * @implements ModelInterface
  */
 final class CustomerAddresses implements ModelInterface
 {
@@ -17,19 +15,19 @@ final class CustomerAddresses implements ModelInterface
     private readonly string $table;
 
     function __construct(
-        private ?int $id = null,
-        private ?int $customer_id = null,
-        private ?string $name = null,
-        private ?string $street = null,
-        private ?string $number = null,
-        private ?string $neighborhood = null,
-        private ?string $city = null,
-        private ?string $state = null,
-        private ?string $country = null,
-        private ?string $zipcode = null,
-        private ?string $complement = null,
-        private ?string $created_at = null,
-        private ?string $updated_at = null,
+        public readonly ?int $id = null,
+        public readonly ?int $customer_id = null,
+        public readonly ?string $name = null,
+        public readonly ?string $street = null,
+        public readonly ?string $number = null,
+        public readonly ?string $neighborhood = null,
+        public readonly ?string $city = null,
+        public readonly ?string $state = null,
+        public readonly ?string $country = null,
+        public readonly ?string $zipcode = null,
+        public readonly ?string $complement = null,
+        public readonly ?string $created_at = null,
+        public readonly ?string $updated_at = null,
     ) {
         $this->table = 'customer_addresses';
     }
@@ -81,11 +79,5 @@ final class CustomerAddresses implements ModelInterface
     function getTableName(): string
     {
         return $this->table;
-    }
-
-    function setCustomerId(int $customer_id): self
-    {
-        $this->customer_id = $customer_id;
-        return $this;
     }
 }

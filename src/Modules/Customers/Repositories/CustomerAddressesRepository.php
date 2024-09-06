@@ -7,8 +7,6 @@ use App\Modules\Customers\Models\CustomerAddresses;
 
 /**
  * Read data from costumers table
- *
- * @extends BaseRepository
  */
 class CustomerAddressesRepository extends BaseRepository
 {

@@ -7,8 +7,6 @@ use App\Core\FormRequest\FormRequest;
 
 /**
  * Used to validate form requests
- *
- * @extends FormRequest
  */
 class UpdateFormRequest extends FormRequest
 {

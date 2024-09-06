@@ -11,7 +11,6 @@ use RuntimeException;
 class DatabaseManager
 {
     private static ?DatabaseConnection $connection = null;
-    private static ?DatabaseManager $instance = null;
 
 
     /**

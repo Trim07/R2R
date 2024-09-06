@@ -79,7 +79,7 @@ class MigrationProvider
      * Get all migration files from directory
      *
      * @param string $directory
-     * @return array
+     * @return array<int, string>
      */
     private function getMigrationFiles(string $directory): array
     {

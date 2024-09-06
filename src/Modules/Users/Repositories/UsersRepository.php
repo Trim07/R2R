@@ -8,8 +8,6 @@ use http\Client\Curl\User;
 
 /**
  * Read data from costumers table
- *
- * @extends BaseRepository
  */
 class UsersRepository extends BaseRepository
 {

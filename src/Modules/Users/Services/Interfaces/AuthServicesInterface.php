@@ -6,7 +6,7 @@ interface AuthServicesInterface
 {
 
     /**
-     * @param array $data
+     * @param array<string, string> $data
      * @return bool
      */
     public function login(array $data): bool;

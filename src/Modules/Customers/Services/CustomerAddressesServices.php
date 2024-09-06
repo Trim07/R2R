@@ -3,15 +3,12 @@
 namespace App\Modules\Customers\Services;
 
 use App\Core\Interfaces\ItemsServicesInterface;
-use App\Core\Interfaces\ServicesInterface;
 use App\Core\Services\DatabaseServices;
 use App\Modules\Customers\Models\CustomerAddresses;
 use App\Modules\Customers\Repositories\CustomerAddressesRepository;
 
 /**
  * Can be used to access external services or manipulate the database, for example
- *
- * @implements ServicesInterface
  */
 class CustomerAddressesServices implements ItemsServicesInterface
 {
@@ -30,8 +27,8 @@ class CustomerAddressesServices implements ItemsServicesInterface
     function create(array $data, int $father_id): void
     {
         foreach ($data as $address) {
+            $address["customer_id"] = $father_id;
             $addressModel = $this->mapFields($address);
-            $addressModel->setCustomerId($father_id);
             $this->databaseServices->insert($addressModel);
         }
     }

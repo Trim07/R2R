@@ -6,15 +6,11 @@ use App\Core\Exceptions\FormRequestValidationException;
 use App\Core\Interfaces\ControllerInterface;
 use App\Modules\Customers\Http\Requests\CreateFormRequest;
 use App\Modules\Customers\Http\Requests\DeleteFormRequest;
-use App\Modules\Customers\Http\Requests\ShowFormRequest;
 use App\Modules\Customers\Http\Requests\UpdateFormRequest;
 use App\Modules\Customers\Repositories\CustomersRepository;
 use App\Modules\Customers\Services\CustomersServices;
-use App\Modules\Users\Services\AuthService;
 
-/**
- * @implements ControllerInterface
- */
+
 class CustomersController implements ControllerInterface
 {
 
@@ -60,14 +56,11 @@ class CustomersController implements ControllerInterface
     public function show(array $data): void
     {
         try {
-            $id = (Int)$data[0] ?? null;
-            $request = new ShowFormRequest(['id' => $id]);
-
+            $id = (Int)$data[0];
             $costumer = $this->customersRepository->findById($id);
 
             http_response_code(200);
             echo json_encode($costumer);
-
         }catch (\Exception $exception){
             echo $exception->getMessage();
         }
@@ -105,7 +98,7 @@ class CustomersController implements ControllerInterface
     public function delete(array $data): void
     {
         try {
-            $id = (Int)$data[0] ?? null;
+            $id = (Int)$data[0];
             $request = new DeleteFormRequest(['id' => $id]);
             $this->customersServices->delete($request->validated());
             http_response_code(204);
