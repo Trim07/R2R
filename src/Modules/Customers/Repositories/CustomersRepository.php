@@ -7,8 +7,6 @@ use App\Modules\Customers\Models\Customers;
 
 /**
  * Read data from costumers table
- *
- * @extends BaseRepository
  */
 class CustomersRepository extends BaseRepository
 {
@@ -60,9 +58,9 @@ class CustomersRepository extends BaseRepository
      */
     public function checkIfCustomerExists(Customers $customer): bool
     {
-        $search_customer = $this->orWhere("cpf", "=", $customer->getCpf())
-                        ->orWhere("rg", "=", $customer->getRg())
-                        ->orWhere("phone", "=", $customer->getPhone())
+        $search_customer = $this->orWhere("cpf", "=", $customer->cpf)
+                        ->orWhere("rg", "=", $customer->rg)
+                        ->orWhere("phone", "=", $customer->phone)
                         ->first();
         return !empty($search_customer);
     }

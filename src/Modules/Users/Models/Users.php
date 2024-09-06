@@ -7,8 +7,6 @@ use App\Core\Interfaces\ModelInterface;
 /**
  * Users Model Class
  * Contains whole fields from respective table
- *
- * @implements ModelInterface
  */
 final class Users implements ModelInterface
 {
@@ -16,12 +14,12 @@ final class Users implements ModelInterface
     private readonly string $table;
 
     function __construct(
-        public ?int $id = null,
-        public ?string $name = null,
-        public ?string $email = null,
-        public ?string $password = null,
-        public ?string $created_at = null,
-        public ?string $updated_at = null,
+        public readonly ?int $id = null,
+        public readonly ?string $name = null,
+        public readonly ?string $email = null,
+        public readonly ?string $password = null,
+        public readonly ?string $created_at = null,
+        public readonly ?string $updated_at = null,
     ) {
         $this->table = "users";
     }
@@ -61,10 +59,5 @@ final class Users implements ModelInterface
     public function getTableName(): string
     {
         return $this->table;
-    }
-
-    private static function encrypt_password(string $password): string
-    {
-        return password_hash($password, PASSWORD_BCRYPT);
     }
 }

@@ -8,8 +8,6 @@ use App\Core\Interfaces\ModelInterface;
 /**
  * Customer Model Class
  * Contains whole fields from respective table
- *
- * @implements ModelInterface
  */
 final class Customers implements ModelInterface
 {
@@ -17,52 +15,17 @@ final class Customers implements ModelInterface
     private readonly string $table;
 
     function __construct(
-        private ?int $id = null,
-        private ?int $user_id = null,
-        private ?string $name = null,
-        private ?string $birthday = null,
-        private ?string $cpf = null,
-        private ?string $rg = null,
-        private ?string $phone = null,
-        private ?string $created_at = null,
-        private ?string $updated_at = null,
+        public readonly ?int $id = null,
+        public readonly ?int $user_id = null,
+        public readonly ?string $name = null,
+        public readonly ?string $birthday = null,
+        public readonly ?string $cpf = null,
+        public readonly ?string $rg = null,
+        public readonly ?string $phone = null,
+        public readonly ?string $created_at = null,
+        public readonly ?string $updated_at = null,
     ) {
         $this->table = "customers";
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function getBirthday(): ?string
-    {
-        return $this->birthday;
-    }
-
-    public function getCpf(): ?string
-    {
-        return $this->cpf;
-    }
-
-    public function getRg(): ?string
-    {
-        return $this->rg;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
     }
 
     /**

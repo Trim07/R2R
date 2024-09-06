@@ -37,27 +37,6 @@ class FormValidators
     }
 
     /**
-     * Validates nested fields.
-     *
-     * @param array $data
-     * @param array $rules
-     * @param string $parentKey
-     * @return void
-     * @throws FormRequestValidationException
-     */
-    private function validateNested(array $data, array $rules, string $parentKey): void
-    {
-        foreach ($rules as $field => $ruleSet) {
-            $key = "{$parentKey}.{$field}";
-            if (is_array($ruleSet)) {
-                $this->validateNested($data[$field] ?? [], $ruleSet, $key);
-            } else {
-                $this->validateField($key, $data[$field] ?? null, $ruleSet);
-            }
-        }
-    }
-
-    /**
      * Validates a single field.
      *
      * @param string $field
@@ -141,7 +120,7 @@ class FormValidators
     {
         $min = (int)str_replace('min:', '', $rule);
 
-        $isValid = strlen($value) !== 0 && !empty($field) && !strlen($value) > $min;
+        $isValid = strlen($value) !== 0 && !empty($field) && strlen($value) > $min;
         if ($isValid === false) {
             $this->errors[$field][] = "O campo $field não pode ser menor que $min caracteres.";
         }
@@ -166,12 +145,12 @@ class FormValidators
      * Validate if field is integer type
      *
      * @param string|null $field
-     * @param int|null $value
+     * @param string|null $value
      * @return void
      */
-    private function validateInt(string|null $field, int|null $value): void
+    private function validateInt(string|null $field, string|null $value): void
     {
-        $isValid = !empty($field) && strlen($value) !== 0;
+        $isValid = !empty($field) && is_numeric($value) && strlen($value) !== 0;
         if ($isValid === false) {
             $this->errors[$field][] = "O campo $field deve ser válido.";
         }

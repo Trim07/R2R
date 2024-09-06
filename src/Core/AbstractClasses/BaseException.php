@@ -2,9 +2,6 @@
 
 namespace App\Core\AbstractClasses;
 
-/**
- * @extends \Exception
- */
 abstract class BaseException extends \Exception
 {
     protected array $errors;

@@ -6,9 +6,6 @@ use App\Core\Database\DatabaseManager;
 use App\Core\Interfaces\DatabaseServicesInterface;
 use App\Core\Interfaces\ModelInterface;
 
-/**
- * @implements DatabaseServicesInterface
- */
 
 class DatabaseServices implements DatabaseServicesInterface
 {
@@ -143,10 +140,10 @@ class DatabaseServices implements DatabaseServicesInterface
      * Get last created record
      *
      * @param ModelInterface $model
-     * @param int $id
-     * @return mixed
+     * @param string $id
+     * @return ModelInterface
      */
-    private function getLastRecord(ModelInterface $model, int $id): ModelInterface
+    private function getLastRecord(ModelInterface $model, string $id): ModelInterface
     {
         $table = $model->getTableName();
         $stmt = $this->databaseManager->getConnection()->prepare("SELECT * FROM $table WHERE id = :id");

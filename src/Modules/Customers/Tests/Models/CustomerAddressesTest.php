@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 final class CustomerAddressesTest extends TestCase
 {
 
-    public function testCanBeCreatedFromValidArray()
+    public function testCanBeCreatedFromValidArray(): void
     {
         $data = [
             "id" => 1,
@@ -30,7 +30,7 @@ final class CustomerAddressesTest extends TestCase
         $this->assertInstanceOf(CustomerAddresses::class, $mapped_customer_address);
     }
 
-    public function testCanmapFieldsToArray()
+    public function testCanmapFieldsToArray(): void
     {
         $customer_address = new CustomerAddresses(
             id: 1,
@@ -63,7 +63,7 @@ final class CustomerAddressesTest extends TestCase
 
     }
 
-    public function testGetTableName()
+    public function testGetTableName(): void
     {
         $customer = new CustomerAddresses();
         $this->assertEquals('customer_addresses', $customer->getTableName());

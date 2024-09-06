@@ -9,8 +9,6 @@ use App\Modules\Users\Services\Interfaces\AuthServicesInterface;
 
 /**
  * Responsible for control of authentication
- *
- * @implements AuthServicesInterface
  */
 class AuthService implements AuthServicesInterface
 {
@@ -21,7 +19,7 @@ class AuthService implements AuthServicesInterface
     ){}
 
     /**
-     * @param array $data
+     * @param array<string, string> $data
      * @return bool
      * @throws AuthException
      */
@@ -44,7 +42,7 @@ class AuthService implements AuthServicesInterface
         session_start();
         $_SESSION = [];
         $session_timeout = $_ENV['SESSION_TIMEOUT'];
-        if (session_id() !== '') {
+        if (session_id() !== '' && session_name()) {
             setcookie(session_name(), '', time() - $session_timeout, '/');
         }
         session_destroy();
@@ -62,7 +60,7 @@ class AuthService implements AuthServicesInterface
     /**
      * Get session data
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public static function getSession(): array
     {

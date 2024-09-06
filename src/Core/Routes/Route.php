@@ -9,6 +9,10 @@ class Route
 {
     private string $method;
     private string $path;
+
+    /**
+     * @var callable
+     */
     private $callback;
 
     public function __construct(string $method, string $path, callable $callback)

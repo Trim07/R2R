@@ -11,8 +11,6 @@ use App\Modules\Users\Repositories\UsersRepository;
 
 /**
  * Can be used to access external services or manipulate the database, for example
- *
- * @implements ServicesInterface
  */
 class UsersServices implements ServicesInterface
 {
@@ -73,10 +71,5 @@ class UsersServices implements ServicesInterface
     public function mapFields(array $data): Users
     {
         return Users::mapFieldFromArray($data);
-    }
-
-    private function encrypt_password(string $password): string
-    {
-        return password_hash($password, PASSWORD_BCRYPT);
     }
 }

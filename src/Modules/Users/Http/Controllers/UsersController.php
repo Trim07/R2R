@@ -15,9 +15,6 @@ use App\Modules\Users\Services\AuthService;
 use App\Modules\Users\Services\UsersServices;
 
 
-/**
- * @implements ControllerInterface
- */
 class UsersController implements ControllerInterface
 {
 
@@ -64,7 +61,7 @@ class UsersController implements ControllerInterface
     public function show(array $data): void
     {
         try {
-            $id = (int)$data[0] ?? null;
+            $id = (int)$data[0];
 
             $request = new ShowFormRequest(['id' => $id]);
 
@@ -117,7 +114,7 @@ class UsersController implements ControllerInterface
     public function delete(array $data): void
     {
         try {
-            $id = (Int)$data[0] ?? null;
+            $id = (Int)$data[0];
             $request = new DeleteFormRequest(['id' => $id]);
 
             // Valida os parâmetros usando o ShowFormRequest
@@ -137,7 +134,7 @@ class UsersController implements ControllerInterface
     }
 
     /**
-     * @param array $data
+     * @param array<string, string> $data
      * @return void
      * @throws FormRequestValidationException
      */

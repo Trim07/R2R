@@ -12,8 +12,6 @@ use App\Modules\Users\Services\AuthService;
 
 /**
  * Can be used to access external services or manipulate the database, for example
- *
- * @implements ServicesInterface
  */
 class CustomersServices implements ServicesInterface
 {
@@ -36,7 +34,7 @@ class CustomersServices implements ServicesInterface
         $customerModel = $this->mapFields($data["customer"]);
         if($this->customersRepository->checkIfCustomerExists($customerModel) === false){
             $customer = $this->databaseServices->insert($customerModel); // insert customers into table
-            if(!empty($data["addresses"])){
+            if(!empty($customer->id) && !empty($data["addresses"])){
                 (new CustomerAddressesServices)->create($data["addresses"], $customer->id); // update addresses
             }
             return;

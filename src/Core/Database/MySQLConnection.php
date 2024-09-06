@@ -9,7 +9,6 @@ use RuntimeException;
 
 /**
  * MySQLConnection class to make connection to database
- * @extends DatabaseConnection
  */
 class MySQLConnection extends DatabaseConnection
 {

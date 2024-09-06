@@ -66,16 +66,6 @@ class Request
         return $this->cookies;
     }
 
-    /**
-     * Check if the current request type is JSON FORMAT
-     *
-     * @return bool
-     */
-    private function isJsonRequest(): bool
-    {
-        return isset($_SERVER['CONTENT_TYPE']) && str_starts_with($_SERVER['CONTENT_TYPE'], 'application/json');
-    }
-
     private function parseHeaders(): array
     {
         $headers = [];
